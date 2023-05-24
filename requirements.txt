@@ -2,3 +2,5 @@ notebook
 pandas
 nltk
 scikit-learn
+mllint
+dvc
