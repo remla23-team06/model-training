@@ -2,3 +2,5 @@
 /preprocessed_data.joblib
 /trained_model_and_data.joblib
 /evaluation.txt
+/dataset.csv
+/evaluation.joblib

@@ -9,17 +9,20 @@ stages:
     cmd: python src/preprocess_data.py
     deps:
     - src/preprocess_data.py
+    - output/dataset.csv
     outs:
     - output/preprocessed_data.joblib
   train:
     cmd: python src/train.py
     deps:
     - src/train.py
+    - output/preprocessed_data.joblib
     outs:
     - output/trained_model_and_data.joblib
   evaluate_model:
     cmd: python src/evaluate_model.py
     deps:
     - src/evaluate_model.py
+    - output/trained_model_and_data.joblib
     outs:
     - output/evaluation.joblib
