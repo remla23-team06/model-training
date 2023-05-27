@@ -1,9 +1,9 @@
+"""Tests for get_data.py"""
 import pandas as pd
-
-"""Test input"""
 
 
 def test_input():
+    """Test that the input dataset is not empty"""
     dataset = pd.read_csv(
         "data/a1_RestaurantReviews_HistoricDump.tsv", delimiter="\t", quoting=3
     )

@@ -1,13 +1,13 @@
+"""Data Preprocessing"""
 import os
 import re
 
 import nltk
 import pandas as pd
-from joblib import dump, load
+from joblib import dump
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
-"""Data Preprocessing"""
 # Load the data from the file
 print(os.getcwd())
 dataset = pd.read_csv("output/dataset.csv")
@@ -18,12 +18,12 @@ all_stopwords.remove("not")
 
 corpus = []
 for i in range(0, 900):
-    review = re.sub("[^a-zA-Z]", " ", dataset["Review"][i])
-    review = review.lower()
-    review = review.split()
-    review = [ps.stem(word) for word in review if not word in set(all_stopwords)]
-    review = " ".join(review)
-    corpus.append(review)
+    REVIEW = re.sub("[^a-zA-Z]", " ", dataset["Review"][i])
+    REVIEW = REVIEW.lower()
+    REVIEW = REVIEW.split()
+    REVIEW = [ps.stem(word) for word in REVIEW if not word in set(all_stopwords)]
+    REVIEW = " ".join(REVIEW)
+    corpus.append(REVIEW)
 
 dump(corpus, "output/preprocessed_data.joblib")
 print(corpus)

@@ -1,3 +1,4 @@
+"""Train the model and export it to later use in prediction."""
 import pandas as pd
 from joblib import dump, load
 from sklearn.feature_extraction.text import CountVectorizer

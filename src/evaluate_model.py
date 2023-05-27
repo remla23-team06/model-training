@@ -1,3 +1,5 @@
+"""Evaluate the model and save the results to a file."""
+
 from joblib import dump, load
 from sklearn.metrics import accuracy_score, confusion_matrix
 
