@@ -25,3 +25,8 @@ Run `poetry run pylint src`
 3. Run `poetry run dvc repro` to reproduce (run) the pipeline
 
 The pipeline has 4 stages: get_data, preprocess_data, train, evaluate_model
+
+## Running DVC metrics
+There is a metric for the model accuracy, which is calculated by the `evaluate_model` stage.
+1. Run `poetry run dvc metrics show` to show the metrics
+2. Run `poetry run dvc metrics diff` to show the metrics diff

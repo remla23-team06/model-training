@@ -26,3 +26,5 @@ stages:
     - output/trained_model_and_data.joblib
     outs:
     - output/evaluation.joblib
+    metrics:
+    - output/accuracy_score.json

@@ -16,3 +16,7 @@ accuracy_score = accuracy_score(y_test, y_pred)
 print(cm)
 print(accuracy_score)
 dump([cm, accuracy_score], "output/evaluation.joblib")
+
+with open("output/accuracy_score.json", "w") as f:
+    f.write('{"accuracy_score": ' + str(accuracy_score) + "}")
+
