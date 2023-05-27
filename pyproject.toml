@@ -1,0 +1,23 @@
+[tool.isort]
+profile = "black"
+
+[tool.poetry]
+name = "model-training"
+version= "0.0.0"
+description = "This is the model training package"
+authors = ["Radek Kargul <r.kargul@student.tudelft.nl>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+notebook = "^6.5.4"
+pandas = "^2.0.1"
+nltk = "^3.8.1"
+scikit-learn = "^1.2.2"
+dvc = "^2.58.1"
+dvc-gdrive = "^2.19.2"
+mllint = "*"
+pylint = "^2.17.4"
+mypy = "^1.3.0"
+black = "^23.3.0"
+bandit = "^1.7.5"
+pytest = "^7.3.1"

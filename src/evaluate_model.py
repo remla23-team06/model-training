@@ -1,8 +1,10 @@
-from joblib import load, dump
-from sklearn.metrics import confusion_matrix, accuracy_score
+from joblib import dump, load
+from sklearn.metrics import accuracy_score, confusion_matrix
 
 # Load the classifier and data
-[classifier, X_train, X_test, y_train, y_test] = load('output/trained_model_and_data.joblib')
+[classifier, X_train, X_test, y_train, y_test] = load(
+    "output/trained_model_and_data.joblib"
+)
 
 # Model performance
 y_pred = classifier.predict(X_test)
@@ -11,4 +13,4 @@ accuracy_score = accuracy_score(y_test, y_pred)
 
 print(cm)
 print(accuracy_score)
-dump([cm, accuracy_score], 'output/evaluation.joblib')
+dump([cm, accuracy_score], "output/evaluation.joblib")
