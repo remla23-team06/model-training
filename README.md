@@ -1,28 +1,27 @@
 # model-training
 
 ## Requirements
-Make sure to run `poetry install` to install all dependencies
-Make sure to have Python 3.10 installed
+- Python 3.10
+- Poetry
 
-## mllint
-You can run mllint to check what it says about data version control `poetry run mllint`
-1. Run `isort .`
+## Running the project
+1. Run `poetry install` to install dependencies
+2. Ensure that you are using the correct Python version (3.10) by running `poetry env info`
+3. If the Python version is not correct, run `poetry env use 3.10`, and re-rub `poetry install`
 
-## DVC
-We will prepare a pipeline
+### mllint
+Run `poetry run mllint` to run all the linters
 
-### Stage 1: get_data
-`dvc run -n get_data -d src/get_data.py -o output/dataset.txt python src/get_data.py`
+### pytest
+Run `poetry run pytest`
 
-### Stage 2: preprocess_data
-`dvc run -n preprocess_data -d src/preprocess_data.py -o output/preprocessed_data.joblib python src/preprocess_data.py`
 
-### Stage 3: train
-`dvc run -n train -d src/train.py -o output/trained_model_and_data.joblib python src/train.py`
+### pylint
+Run `poetry run pylint src`
 
-### Stage 4: evaluate_model
-`dvc run -n evaluate_model -d src/evaluate_model.py -o output/evaluation.joblib python src/evaluate_model.py`
+## Running DVC (from remote Google Drive storage)
+1. DVC is already included in the Poetry dependencies, so no need to install it manually
+2. Run `poetry run dvc pull` to pull the data from the remote storage
+3. Run `poetry run dvc repro` to reproduce (run) the pipeline
 
-## DVC Remote (GDrive)
-Pull the remote data
-`dvc pull`
+The pipeline has 4 stages: get_data, preprocess_data, train, evaluate_model

@@ -18,12 +18,14 @@ all_stopwords.remove("not")
 
 corpus = []
 for i in range(0, 900):
-    REVIEW = re.sub("[^a-zA-Z]", " ", dataset["Review"][i])
-    REVIEW = REVIEW.lower()
-    REVIEW = REVIEW.split()
-    REVIEW = [ps.stem(word) for word in REVIEW if not word in set(all_stopwords)]
-    REVIEW = " ".join(REVIEW)
-    corpus.append(REVIEW)
+    REVIEW_STR = re.sub("[^a-zA-Z]", " ", dataset["Review"][i])
+    REVIEW_STR = REVIEW_STR.lower()
+    REVIEW_LIST = REVIEW_STR.split()
+    REVIEW_LIST = [
+        ps.stem(word) for word in REVIEW_LIST if not word in set(all_stopwords)
+    ]
+    REVIEW_LIST = " ".join(REVIEW_LIST)
+    corpus.append(REVIEW_LIST)
 
 dump(corpus, "output/preprocessed_data.joblib")
 print(corpus)

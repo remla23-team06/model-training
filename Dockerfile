@@ -2,10 +2,11 @@ FROM python:3.10
 
 WORKDIR /app
 
-COPY requirements.txt /app/
 COPY /data /app/
-COPY trained_model /app/
+COPY /src /app/
+COPY /tests /app/
 
-RUN pip install -r requirements.txt
+RUN poetry install
+RUN poetry env use 3.10
 
 EXPOSE 8089

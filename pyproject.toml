@@ -2,15 +2,13 @@
 name = "model-training"
 version= "0.0.0"
 description = "This is the model training package"
-authors = ["Radek Kargul <r.kargul@student.tudelft.nl>"]
+authors = [
+    "Radek Kargul <r.kargul@student.tudelft.nl>"
+]
 
-[tool.isort]
-profile = "black"
+repository = "https://github.com/remla23-team06/model-training"
 
-[tool.bandit]
-exclude_dirs = ["tests", "path/to/file"]
-tests = ["B201", "B301"]
-skips = ["B101", "B601"]
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -18,7 +16,6 @@ notebook = "^6.5.4"
 pandas = "^2.0.1"
 nltk = "^3.8.1"
 scikit-learn = "^1.2.2"
-pytest = "^7.3.1"
 
 [tool.poetry.dev-dependencies]
 dvc = "^2.58.1"
@@ -28,3 +25,24 @@ pylint = "^2.17.4"
 mypy = "^1.3.0"
 black = "^23.3.0"
 bandit = "^1.7.5"
+pytest = "^7.3.1"
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+include = '\.pyi?$'
+
+[tool.bandit.assert_used]
+skips = ['*_test.py', '*/test_*.py']
+
+[tool.pylint]
+ignore = ["tests"]
+
+[tool.mllint.rules]
+disabled = [
+    "version-control/code/git",
+    "dependency-management",
+    "testing/pass",
+    "testing/coverage"
+]

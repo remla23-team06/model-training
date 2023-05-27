@@ -2,7 +2,7 @@
 import pandas as pd
 
 
-def test_input():
+def test_input() -> None:
     """Test that the input dataset is not empty"""
     dataset = pd.read_csv(
         "data/a1_RestaurantReviews_HistoricDump.tsv", delimiter="\t", quoting=3
