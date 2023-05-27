@@ -17,6 +17,5 @@ print(cm)
 print(accuracy_score)
 dump([cm, accuracy_score], "output/evaluation.joblib")
 
-with open("output/accuracy_score.json", "w") as f:
+with open("output/accuracy_score.json", "w", encoding="utf8") as f:
     f.write('{"accuracy_score": ' + str(accuracy_score) + "}")
-
