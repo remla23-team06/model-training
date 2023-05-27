@@ -1,0 +1,5 @@
+# Ignore IDE files
+.idea/
+.vscode/
+.mypy_cache/
+tests-report.xml
