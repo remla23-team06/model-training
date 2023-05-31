@@ -1,0 +1,16 @@
+name: Run mllint
+on:
+  pull_request:
+    types: []
+
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: curl -sSL https://install.python-poetry.org | python3 - --version=1.4.2
+      - name: Install dependencies
+        run: poetry -vv install --no-interaction --no-ansi
+      - name: Run linting
+        run: poetry run mllint

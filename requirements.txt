@@ -1,4 +1,0 @@
-notebook
-pandas
-nltk
-scikit-learn
