@@ -3,7 +3,10 @@ name = "model-training"
 version= "0.0.0"
 description = "This is the model training package"
 authors = [
-    "Radek Kargul <r.kargul@student.tudelft.nl>"
+    "Radek Kargul <r.kargul@student.tudelft.nl>",
+    "Rohan Sobha <r.r.sobha@student.tudelft.nl>",
+    "Konstantinos Andriopoulos <a.konstantinos@student.tudelft.nl>",
+    "Andrei Ionescu <a.c.ionescu-1@student.tudelft.nl>"
 ]
 
 repository = "https://github.com/remla23-team06/model-training"
