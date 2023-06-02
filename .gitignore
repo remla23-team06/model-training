@@ -3,4 +3,5 @@
 .vscode/
 .mypy_cache/
 tests-report.xml
+report.txt
 __pycache__/
