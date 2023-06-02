@@ -13,4 +13,8 @@ jobs:
       - name: Install dependencies
         run: poetry -vv install --no-interaction --no-ansi
       - name: Run linting
-        run: poetry run mllint
+        run: poetry run mllint --output --force report.md
+      - uses: mshick/add-pr-comment@v2
+        with:
+          message-path: |
+            report.md
