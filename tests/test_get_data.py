@@ -8,12 +8,12 @@ def test_input() -> None:
         "data/a1_RestaurantReviews_HistoricDump.tsv",
         delimiter="\t",
         quoting=3,
-        dtype={'text': 'string', 'score': 'Int8'},
+        dtype={"text": "string", "score": "Int8"},
     )
 
     # Select columns from dataset
 
-    dataset = dataset[['Review', 'Liked']]
+    dataset = dataset[["Review", "Liked"]]
     assert dataset.shape != (0, 0)
 
 

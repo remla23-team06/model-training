@@ -7,10 +7,9 @@ from sklearn.naive_bayes import GaussianNB
 
 # load the preprocessed data
 corpus = load("output/preprocessed_data.joblib")
-dataset = pd.read_csv("output/dataset.csv",
-                      dtype={'text': 'string', 'score': 'Int8'})
+dataset = pd.read_csv("output/dataset.csv", dtype={"text": "string", "score": "Int8"})
 
-dataset = dataset[['Review', 'Liked']]
+dataset = dataset[["Review", "Liked"]]
 
 # Data transformation
 cv = CountVectorizer(max_features=1420)
