@@ -23,6 +23,11 @@ jobs:
       - name: Run linting
         run: poetry run mllint --output ./report.md
 
+      - uses: mshick/add-pr-comment@v2
+        with:
+          message-path: |
+            ./report.md
+
       - uses: actions/upload-artifact@v3
         with:
           name: mllint-report
@@ -32,11 +37,10 @@ jobs:
   create_pr_comment:
     needs: lint
     runs-on: ubuntu-22.04
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/download-artifact@v3
         with:
           name: mllint-report
-      - uses: mshick/add-pr-comment@v2
-        with:
-          message-path: |
-            ./report.md
+      
