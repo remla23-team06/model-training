@@ -8,13 +8,34 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
+
       - name: Install poetry
         run: curl -sSL https://install.python-poetry.org | python3 - --version=1.4.2
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+          cache: 'poetry'
+
       - name: Install dependencies
         run: poetry -vv install --no-interaction --no-ansi
+
       - name: Run linting
-        run: poetry run mllint --output report.md
+        run: poetry run mllint --output ./report.md
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: mllint-report
+          path: ./report-md
+
+
+  create_pr_comment:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: mllint-report
       - uses: mshick/add-pr-comment@v2
         with:
           message-path: |
-            report.md
+            ./report.md
