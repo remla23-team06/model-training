@@ -30,6 +30,7 @@ jobs:
 
 
   create_pr_comment:
+    needs: lint
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/download-artifact@v3
