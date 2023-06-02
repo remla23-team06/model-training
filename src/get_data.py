@@ -1,18 +1,33 @@
 """Get data from the historic dump and save it to a file."""
+from pathlib import Path
+from typing import Union
+
 import pandas as pd
-# Importing dataset
-dataset = pd.read_csv(
-    "data/a1_RestaurantReviews_HistoricDump.tsv",
-    delimiter="\t",
-    quoting=3,
-    dtype={'text': 'string', 'score': 'Int8'},
-)
 
-# Select columns from dataset
 
-dataset = dataset[['Review', 'Liked']]
+def read_data() -> pd.DataFrame:
+    # Importing dataset
+    return pd.read_csv(
+        "data/a1_RestaurantReviews_HistoricDump.tsv",
+        delimiter="\t",
+        quoting=3,
+        dtype={'Review': 'string', 'Liked': 'bool'},
+    )
 
-print(dataset)
 
-# Save data in a file for later use
-dataset.to_csv("output/dataset.csv", index=False)
+def slice_data(df: pd.DataFrame) -> pd.DataFrame:
+    # Select columns from dataset
+    return df[['Review', 'Liked']]
+
+
+def write_data(df: pd.DataFrame, output_path: Union[str, Path] = "output/dataset.csv"):
+    # Save data in a file for later use
+    df.to_csv(output_path, index=False)
+
+
+if __name__ == '__main__':
+    dataset = read_data()
+    print(dataset.dtypes.to_dict())
+    dataset = slice_data(dataset)
+    print(dataset)
+    write_data(dataset)
