@@ -21,9 +21,45 @@ jobs:
         run: poetry -vv install --no-interaction --no-ansi
 
       - name: Run linting
+        run: poetry run pylint
+
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install poetry
+        run: curl -sSL https://install.python-poetry.org | python3 - --version=1.4.2
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+          cache: 'poetry'
+
+      - name: Install dependencies
+        run: poetry -vv install --no-interaction --no-ansi
+
+      - name: Run tests
+        run: poetry run pytest
+
+
+  mllint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install poetry
+        run: curl -sSL https://install.python-poetry.org | python3 - --version=1.4.2
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+          cache: 'poetry'
+
+      - name: Install dependencies
+        run: poetry -vv install --no-interaction --no-ansi
+
+      - name: Run linting
         run: poetry run mllint --output ./report.md
-
-
 
       - uses: actions/upload-artifact@v3
         with:
@@ -32,7 +68,7 @@ jobs:
 
 
   create_pr_comment:
-    needs: lint
+    needs: mllint
     runs-on: ubuntu-22.04
     permissions:
       pull-requests: write
@@ -44,4 +80,5 @@ jobs:
         with:
           message-path: |
             ./report.md
+
       
