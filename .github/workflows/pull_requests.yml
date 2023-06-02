@@ -40,7 +40,7 @@ jobs:
 
       - name: Add current directory to PYTHONPATH
         run: |
-          export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+          export PYTHONPATH="$PYTHONPATH:$PWD"
           echo $PYTHONPATH
         
 
