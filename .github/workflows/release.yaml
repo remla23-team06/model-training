@@ -67,7 +67,8 @@ jobs:
         run: poetry -vv install --no-interaction --no-ansi
 
       - name: Add current directory to PYTHONPATH
-        run: export $PYTHONPATH="."
+        run: export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
 
       - name: Run tests
         run: poetry run pytest
