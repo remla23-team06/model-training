@@ -26,7 +26,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: mllint-report
-          path: ./report-md
+          path: ./report.md
 
 
   create_pr_comment:
