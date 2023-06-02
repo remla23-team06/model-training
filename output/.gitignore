@@ -5,3 +5,4 @@
 /dataset.csv
 /evaluation.joblib
 /accuracy_score.json
+*.joblib
