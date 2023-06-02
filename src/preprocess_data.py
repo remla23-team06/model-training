@@ -10,7 +10,11 @@ from nltk.stem.porter import PorterStemmer
 
 # Load the data from the file
 print(os.getcwd())
-dataset = pd.read_csv("output/dataset.csv")
+dataset = pd.read_csv("output/dataset.csv", dtype={"a": "string", "b": "Int8"})
+
+# Select columns from dataset
+
+dataset = dataset[["Review", "Liked"]]
 nltk.download("stopwords")
 ps = PorterStemmer()
 all_stopwords = stopwords.words("english")
