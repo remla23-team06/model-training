@@ -19,17 +19,19 @@ notebook = "^6.5.4"
 pandas = "^2.0.1"
 nltk = "^3.8.1"
 scikit-learn = "^1.2.2"
-dslinter = "^2.0.9"
+
 
 [tool.poetry.dev-dependencies]
 dvc = "^2.58.1"
 dvc-gdrive = "^2.19.2"
-mllint = "*"
+mllint = "0.12.2"
 pylint = "^2.12.2"
 mypy = "^0.931"
 black = "^23.3.0"
 bandit = "^1.7.5"
 pytest = "^7.3.1"
+dslinter = "^2.0.9"
+pytest-lazy-fixture = "^0.6.3"
 
 [tool.isort]
 profile = "black"
@@ -40,13 +42,18 @@ include = '\.pyi?$'
 [tool.bandit.assert_used]
 skips = ['*_test.py', '*/test_*.py']
 
-[tool.pylint]
-ignore = ["tests"]
-
 [tool.mllint.rules]
 disabled = [
     "version-control/code/git",
     "dependency-management",
-    "testing/pass",
+#    "testing/pass",
     "testing/coverage"
 ]
+
+[tool.mllint.testing]
+report = "tests-report.xml"
+targets = { minimum = 1, ratio = { tests = 1, other = 4 }}
+
+[tool.pytest.ini_options]
+junit_suite_name = "tests-report.xml"
+

@@ -25,9 +25,13 @@ def write_data(df: pd.DataFrame, output_path: Union[str, Path] = "output/dataset
     df.to_csv(output_path, index=False)
 
 
-if __name__ == '__main__':
+def get_data_pipeline():
     dataset = read_data()
     print(dataset.dtypes.to_dict())
     dataset = slice_data(dataset)
     print(dataset)
     write_data(dataset)
+
+
+if __name__ == '__main__':
+    get_data_pipeline()

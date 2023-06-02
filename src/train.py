@@ -1,32 +1,68 @@
 """Train the model and export it to later use in prediction."""
+from pathlib import Path
+from typing import Union, List, Tuple, Any
+
 import pandas as pd
+from numpy import ndarray
 from joblib import dump, load
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 
+
 # load the preprocessed data
-corpus = load("output/preprocessed_data.joblib")
-dataset = pd.read_csv("output/dataset.csv", dtype={"text": "string", "score": "Int8"})
+def read_corpus(filepath: Union[str, Path] = "output/preprocessed_data.joblib"):
+    return load(filepath)
 
-dataset = dataset[["Review", "Liked"]]
 
-# Data transformation
-cv = CountVectorizer(max_features=1420)
-X = cv.fit_transform(corpus).toarray()
-y = dataset.iloc[:, -1].values
+def read_data(filepath: Union[str, Path] = "output/dataset.csv"):
+    return pd.read_csv(filepath,
+                       dtype={'text': 'string', 'score': 'bool'})
 
-# Dividing dataset into training and test set
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.20, random_state=0
-)
 
-# Model fitting (Naive Bayes)
-classifier = GaussianNB()
-classifier.fit(X_train, y_train)
+def transform_to_matrix_vector(input_data, output_data) -> Tuple[ndarray, ndarray]:
+    # Data transformation
+    cv = CountVectorizer(max_features=1420)
+    transformed_input = cv.fit_transform(input_data).toarray()
+    transformed_output = output_data.iloc[:, -1].values
+    return transformed_input, transformed_output
 
-# Exporting NB Classifier to later use in prediction
-dump(
-    [classifier, X_train, X_test, y_train, y_test],
-    "output/trained_model_and_data.joblib",
-)
+
+def create_train_test_split(X_input, y_output, seed):
+    # Dividing dataset into training and test set
+    return train_test_split(
+        X_input, y_output, test_size=0.20, random_state=seed
+    )
+
+
+def save_model(model, filepath: Union[str, Path] = "output/trained_model.joblib"):
+    dump(model, filepath)
+
+
+def save_data(data: List, filepath: Union[str, Path] = "output/train_test_data.joblib"):
+    dump(data, filepath)
+
+
+def train_model(local_corpus, local_dataset, seed) -> Tuple[Any, List]:
+    X, y = transform_to_matrix_vector(local_corpus, local_dataset)
+    X_train, X_test, y_train, y_test = create_train_test_split(X, y, seed)
+
+    # Model fitting (Naive Bayes)
+    classifier = GaussianNB()
+    classifier.fit(X_train, y_train)
+
+    return classifier, [X_train, X_test, y_train, y_test]
+
+
+def train_pipeline():
+    corpus: List[str] = read_corpus()
+    dataset: pd.DataFrame = read_data()
+    dataset = dataset[['Review', 'Liked']]
+    model, data = train_model(corpus, dataset, 0)
+    # Exporting NB Classifier to later use in prediction
+    save_model(model)
+    save_data(data)
+
+
+if __name__ == '__main__':
+    train_pipeline()
