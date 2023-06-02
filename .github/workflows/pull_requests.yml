@@ -1,4 +1,4 @@
-name: Run mllint
+name: PRChecks
 on:
   pull_request:
     types: []
