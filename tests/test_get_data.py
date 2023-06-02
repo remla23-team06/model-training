@@ -4,9 +4,16 @@ import pandas as pd
 
 def test_input() -> None:
     """Test that the input dataset is not empty"""
-    dataset = pd.read_csv( # pylint: disable=column-selection-pandas, datatype-pandas
-        "data/a1_RestaurantReviews_HistoricDump.tsv", delimiter="\t", quoting=3
+    dataset = pd.read_csv(
+        "data/a1_RestaurantReviews_HistoricDump.tsv",
+        delimiter="\t",
+        quoting=3,
+        dtype={'text': 'string', 'score': 'Int8'},
     )
+
+    # Select columns from dataset
+
+    dataset = dataset[['Review', 'Liked']]
     assert dataset.shape != (0, 0)
 
 
