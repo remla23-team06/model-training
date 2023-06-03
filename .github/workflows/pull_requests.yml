@@ -57,11 +57,21 @@ jobs:
       - name: Run tests
         run: poetry run pytest
 
+      - uses: actions/upload-artifact@v3
+        with:
+          name: junit-test-report
+          path: ./tests-report.xml
+
 
   mllint:
     runs-on: ubuntu-22.04
+    needs: test
     steps:
       - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: junit-test-report
 
       - name: Install poetry
         run: curl -sSL https://install.python-poetry.org | python3 - --version=1.4.2
