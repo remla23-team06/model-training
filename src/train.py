@@ -2,9 +2,9 @@
 from pathlib import Path
 from typing import Any, List, Tuple, Union
 
-from numpy import int64
 import pandas as pd
 from joblib import dump, load
+from numpy import int64
 from numpy.typing import NDArray
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split

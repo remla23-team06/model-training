@@ -1,8 +1,8 @@
 """Evaluate the model and save the results to a file."""
 from typing import Tuple
 
-from numpy import int64
 from joblib import dump, load
+from numpy import int64
 from numpy.typing import NDArray
 from sklearn import metrics
 from sklearn.pipeline import Pipeline
