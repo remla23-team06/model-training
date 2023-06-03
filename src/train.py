@@ -2,7 +2,7 @@
 from pathlib import Path
 from typing import Any, List, Tuple, Union
 
-import numpy as np
+from numpy import int64
 import pandas as pd
 from joblib import dump, load
 from numpy.typing import NDArray
@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.pipeline import Pipeline
 
-DataEntry = NDArray[np.int64]
+DataEntry = NDArray[int64]
 
 
 # load the preprocessed data

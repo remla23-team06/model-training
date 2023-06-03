@@ -1,14 +1,14 @@
 """Evaluate the model and save the results to a file."""
 from typing import Tuple
 
-import numpy as np
+from numpy import int64
 from joblib import dump, load
 from numpy.typing import NDArray
 from sklearn import metrics
 from sklearn.pipeline import Pipeline
 
 # Model performance
-DataEntry = NDArray[np.int64]
+DataEntry = NDArray[int64]
 
 
 def evaluate_model(
