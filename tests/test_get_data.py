@@ -2,7 +2,14 @@
 import os
 from pathlib import Path
 
-from src.get_data import write_data
+import pytest
+
+from src.get_data import read_data, write_data
+
+
+@pytest.fixture
+def dataset():
+    yield read_data()
 
 
 def test_write_data(dataset):
