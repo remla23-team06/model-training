@@ -46,16 +46,19 @@ jobs:
         uses: actions/cache/restore@v3
         id: restore-cache
         with:
+          path: ~/.dvc/cache
           key: cache-${{ hashFiles('dvc.lock') }}
+
+
+
+      - name: Run DVC pipeline
+        run: poetry run dvc repro
 
       - name: Cache DVC pipeline
         uses: actions/cache@v3
         with:
           path: ~/.dvc/cache  # Adjust the path to your DVC cache directory
           key: ${{ runner.os }}-dvc-${{ hashFiles('dvc.lock') }}
-
-      - name: Run DVC pipeline
-        run: poetry run dvc repro
 
       - name: Run tests
         run: poetry run pytest
