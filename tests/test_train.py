@@ -5,7 +5,7 @@ from src.evaluate_model import evaluate_model
 from src.train import train_model, read_data, read_corpus
 from src.preprocess_data import preprocess_pipeline
 
-THRESHOLD = 0.03
+THRESHOLD = 0.06
 
 
 @pytest.fixture
