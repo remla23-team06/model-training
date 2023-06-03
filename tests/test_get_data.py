@@ -1,21 +1,20 @@
 """Tests for get_data.py"""
-import pandas as pd
+import os
+from pathlib import Path
+
+import pytest
+
+from src.get_data import read_data, write_data
 
 
-def test_input() -> None:
-    """Test that the input dataset is not empty"""
-    dataset = pd.read_csv(
-        "data/a1_RestaurantReviews_HistoricDump.tsv",
-        delimiter="\t",
-        quoting=3,
-        dtype={"text": "string", "score": "Int8"},
-    )
-
-    # Select columns from dataset
-
-    dataset = dataset[["Review", "Liked"]]
-    assert dataset.shape != (0, 0)
+@pytest.fixture
+def dataset():
+    yield read_data()
 
 
-if __name__ == "__main__":
-    test_input()
+def test_write_data(dataset):
+    filepath = Path("output/dataset.csv")
+    if filepath.is_file():
+        os.remove(filepath)
+    write_data(dataset, output_path=filepath)
+    assert Path(filepath).is_file()

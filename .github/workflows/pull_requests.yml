@@ -21,7 +21,7 @@ jobs:
         run: poetry -vv install --no-interaction --no-ansi
 
       - name: Run linting
-        run: poetry run pylint src tests
+        run: poetry run pylint --load-plugins=dslinter src tests
 
   test:
     runs-on: ubuntu-22.04
@@ -38,14 +38,46 @@ jobs:
       - name: Install dependencies
         run: poetry -vv install --no-interaction --no-ansi
 
+      - name: Add current directory to PYTHONPATH
+        run: |
+          echo "PYTHONPATH=$PWD" >> "$GITHUB_ENV"
+
+      - name: Restore DVC cache
+        uses: actions/cache/restore@v3
+        id: restore-cache
+        with:
+          path: ./.dvc/cache
+          key: cache-${{ hashFiles('dvc.lock') }}
+
+
+
+      - name: Run DVC pipeline
+        run: poetry run dvc repro
+
+      - name: Cache DVC pipeline
+        uses: actions/cache@v3
+        with:
+          path: ./.dvc/cache  # Adjust the path to your DVC cache directory
+          key: ${{ runner.os }}-dvc-${{ hashFiles('dvc.lock') }}
+
       - name: Run tests
         run: poetry run pytest
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: junit-test-report
+          path: ./tests-report.xml
 
 
   mllint:
     runs-on: ubuntu-22.04
+    needs: test
     steps:
       - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: junit-test-report
 
       - name: Install poetry
         run: curl -sSL https://install.python-poetry.org | python3 - --version=1.4.2

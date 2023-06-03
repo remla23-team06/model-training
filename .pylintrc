@@ -28,7 +28,7 @@ limit-inference-results=100
 
 # List of plugins (as comma separated values of python modules names) to load,
 # usually to register additional checkers.
-load-plugins=dslinter
+load-plugins=
 
 # Pickle collected data for later comparisons.
 persistent=yes
@@ -226,6 +226,12 @@ good-names=i,
            k,
            ex,
            Run,
+           X,
+           y,
+           X_train,
+           X_test,
+           y_train,
+           y_test
            _
 
 # Include a hint for the correct naming format with invalid-name.
