@@ -60,10 +60,10 @@ jobs:
       - name: Run tests
         run: poetry run pytest
 
-    - uses: actions/upload-artifact@v3
-      with:
-        name: junit-test-report
-        path: ./tests-report.xml
+      - uses: actions/upload-artifact@v3
+        with:
+          name: junit-test-report
+          path: ./tests-report.xml
 
 
   mllint:
