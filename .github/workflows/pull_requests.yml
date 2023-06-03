@@ -42,6 +42,15 @@ jobs:
         run: |
           echo "PYTHONPATH=$PWD" >> "$GITHUB_ENV"
 
+      - name: Cache DVC pipeline
+        uses: actions/cache@v3
+        with:
+          path: ~/.dvc/cache  # Adjust the path to your DVC cache directory
+          key: ${{ runner.os }}-dvc-${{ hashFiles('dvc.lock') }}
+
+      - name: Pull DVC pipeline
+        run: poetry run dvc pull
+
       - name: Run DVC pipeline
         run: poetry run dvc repro
 
