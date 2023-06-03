@@ -18,12 +18,14 @@ stages:
     - src/train.py
     - output/preprocessed_data.joblib
     outs:
-    - output/trained_model_and_data.joblib
+    - output/train_test_data.joblib
+    - output/trained_model.joblib
   evaluate_model:
     cmd: poetry run python src/evaluate_model.py
     deps:
     - src/evaluate_model.py
-    - output/trained_model_and_data.joblib
+    - output/train_test_data.joblib
+    - output/trained_model.joblib
     outs:
     - output/evaluation.joblib
     metrics:
