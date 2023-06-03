@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 from nltk import PorterStemmer
 
-from src.preprocess_data import read_data, get_stop_words, build_corpus, write_corpus
+from src.preprocess_data import build_corpus, get_stop_words, read_data, write_corpus
 
 
 @pytest.fixture
@@ -30,13 +30,15 @@ def corpus(dataset, all_stopwords):
         ps=PorterStemmer(),
         df=dataset,
         stop_words=all_stopwords,
-        no_of_lines=dataset.shape[0]  # Rows in dataset
+        no_of_lines=dataset.shape[0],  # Rows in dataset
     )
 
 
 def test_build_corpus(corpus, dataset):
-    assert len(corpus) == dataset.shape[0]  # Corpus has same number of elements as rows in dataset
-    assert all([line.islower() or line == '' for line in corpus])
+    assert (
+        len(corpus) == dataset.shape[0]
+    )  # Corpus has same number of elements as rows in dataset
+    assert all([line.islower() or line == "" for line in corpus])
     assert all([not re.match("[^a-zA-Z]", line) for line in corpus])
 
 

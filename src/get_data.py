@@ -11,21 +11,23 @@ def read_data() -> pd.DataFrame:
         "data/a1_RestaurantReviews_HistoricDump.tsv",
         delimiter="\t",
         quoting=3,
-        dtype={'Review': 'string', 'Liked': 'bool'},
+        dtype={"Review": "string", "Liked": "bool"},
     )
 
 
 def slice_data(df: pd.DataFrame) -> pd.DataFrame:
     # Select columns from dataset
-    return df[['Review', 'Liked']]
+    return df[["Review", "Liked"]]
 
 
-def write_data(df: pd.DataFrame, output_path: Union[str, Path] = "output/dataset.csv"):
+def write_data(
+    df: pd.DataFrame, output_path: Union[str, Path] = "output/dataset.csv"
+) -> None:
     # Save data in a file for later use
     df.to_csv(output_path, index=False)
 
 
-def get_data_pipeline():
+def get_data_pipeline() -> None:
     dataset = read_data()
     print(dataset.dtypes.to_dict())
     dataset = slice_data(dataset)
@@ -33,5 +35,5 @@ def get_data_pipeline():
     write_data(dataset)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     get_data_pipeline()

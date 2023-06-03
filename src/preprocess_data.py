@@ -10,33 +10,32 @@ from joblib import dump
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
-
 # Load the data from the file
 
+
 def read_data() -> pd.DataFrame:
-    return pd.read_csv("output/dataset.csv",
-                       dtype={'Review': 'string', 'Liked': 'bool'})
+    return pd.read_csv(
+        "output/dataset.csv", dtype={"Review": "string", "Liked": "bool"}
+    )
 
 
 def slice_data(df: pd.DataFrame) -> pd.DataFrame:
     """
     Select columns from dataset
     """
-    return df[['Review', 'Liked']]
+    return df[["Review", "Liked"]]
 
 
 def get_stop_words() -> List[str]:
     nltk.download("stopwords")
-    retrieved_stopwords = stopwords.words("english")
+    retrieved_stopwords: List[str] = stopwords.words("english")
     retrieved_stopwords.remove("not")
     return retrieved_stopwords
 
 
 def build_corpus(
-        ps: PorterStemmer,
-        df: pd.DataFrame,
-        stop_words: List[str],
-        no_of_lines: int) -> List[str]:
+    ps: PorterStemmer, df: pd.DataFrame, stop_words: List[str], no_of_lines: int
+) -> List[str]:
     corpus = []
     for i in range(no_of_lines):
         review_str = re.sub("[^a-zA-Z]", " ", df["Review"][i])
@@ -50,11 +49,13 @@ def build_corpus(
     return corpus
 
 
-def write_corpus(corpus: List[str],
-                 filepath: Union[str, Path] = "output/preprocessed_data.joblib") -> None:
+def write_corpus(
+    corpus: List[str], filepath: Union[str, Path] = "output/preprocessed_data.joblib"
+) -> None:
     dump(corpus, filepath)
 
-def preprocess_pipeline():
+
+def preprocess_pipeline() -> None:
     all_stopwords = get_stop_words()
     dataset = read_data()
     dataset = slice_data(dataset)
@@ -62,11 +63,11 @@ def preprocess_pipeline():
         ps=PorterStemmer(),
         df=dataset,
         stop_words=all_stopwords,
-        no_of_lines=dataset.shape[0])
+        no_of_lines=dataset.shape[0],
+    )
     print(len(word_corpus))
     write_corpus(word_corpus)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     preprocess_pipeline()
