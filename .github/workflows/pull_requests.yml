@@ -21,7 +21,7 @@ jobs:
         run: poetry -vv install --no-interaction --no-ansi
 
       - name: Run linting
-        run: poetry run pylint src tests
+        run: poetry run pylint --load-plugins=dslinter src tests
 
   test:
     runs-on: ubuntu-22.04
