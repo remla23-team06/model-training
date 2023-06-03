@@ -40,9 +40,7 @@ jobs:
 
       - name: Add current directory to PYTHONPATH
         run: |
-          export PYTHONPATH="$PYTHONPATH:$PWD"
-          echo $PYTHONPATH
-        
+          echo "PYTHONPATH=$PWD" >> "$GITHUB_ENV"
 
       - name: Run tests
         run: poetry run pytest
