@@ -42,14 +42,17 @@ jobs:
         run: |
           echo "PYTHONPATH=$PWD" >> "$GITHUB_ENV"
 
+      - name: Restore DVC cache
+        uses: actions/cache/restore@v3
+        id: restore-cache
+        with:
+          key: cache-${{ hashFiles('dvc.lock') }}
+
       - name: Cache DVC pipeline
         uses: actions/cache@v3
         with:
           path: ~/.dvc/cache  # Adjust the path to your DVC cache directory
           key: ${{ runner.os }}-dvc-${{ hashFiles('dvc.lock') }}
-
-      - name: Pull DVC pipeline
-        run: poetry run dvc pull
 
       - name: Run DVC pipeline
         run: poetry run dvc repro
@@ -57,10 +60,10 @@ jobs:
       - name: Run tests
         run: poetry run pytest
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: junit-test-report
-          path: ./tests-report.xml
+    - uses: actions/upload-artifact@v3
+      with:
+        name: junit-test-report
+        path: ./tests-report.xml
 
 
   mllint:
