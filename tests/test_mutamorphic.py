@@ -8,6 +8,7 @@ import os
 
 from src import preprocess_data, get_data
 
+#TOOD: env variable
 server_url = "http://localhost:8000"
 
 
