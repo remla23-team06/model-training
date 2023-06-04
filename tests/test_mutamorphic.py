@@ -112,7 +112,7 @@ def mutate_words_count():
 
 @pytest.fixture
 def model_service_url():
-    return int(os.environ.get("MODEL_SERVICE_URL", "http://localhost:8000"))
+    return str(os.environ.get("MODEL_SERVICE_URL", "http://localhost:8000"))
 
 
 dataset_fixture = "dataset", [
