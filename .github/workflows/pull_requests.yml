@@ -73,6 +73,9 @@ jobs:
               sleep 5
             done
 
+      - name: Set up environment variable for the model service
+        run: echo "MODEL_SERVICE_URL=http://localhost:8000" >> $GITHUB_ENV
+
       - name: Run tests
         run: poetry run pytest
 

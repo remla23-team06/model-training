@@ -8,9 +8,6 @@ import os
 
 from src import preprocess_data, get_data
 
-# TOOD: env variable
-server_url = "http://localhost:8000"
-
 
 def submit_review(review_data: str):
     """
@@ -90,11 +87,7 @@ def get_assertion_model(review, liked, mutate_count):
     mutant_sentiment = submit_review(mutant_review)
 
     if original_sentiment != mutant_sentiment:
-        try:
-            print("Mutation detected! From : {0}; To: {1}".format(review, mutant_review))
-            # pytest.fail()
-        except AssertionError:
-            pass
+        pytest.skip("Mutation detected! From : {0}; To: {1}".format(review, mutant_review))
 
 
 @pytest.fixture
@@ -117,6 +110,11 @@ def mutate_words_count():
     return int(os.environ.get("MUTATE_COUNT", "1"))
 
 
+@pytest.fixture
+def model_service_url():
+    return int(os.environ.get("MODEL_SERVICE_URL", "http://localhost:8000"))
+
+
 dataset_fixture = "dataset", [
     lazy_fixture("get_data_dataset"),
     lazy_fixture("preprocess_data_dataset"),
@@ -125,7 +123,7 @@ dataset_fixture = "dataset", [
 
 @pytest.mark.usefixtures("download_wordnet")
 @pytest.mark.parametrize(*dataset_fixture)
-def test_sentiment_analysis(dataset, mutate_words_count):
+def test_sentiment_analysis(dataset, mutate_words_count, model_service_url):
     review_column = dataset["Review"]
     liked_column = dataset["Liked"]
 
