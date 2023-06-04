@@ -9,7 +9,7 @@ import os
 from src import preprocess_data, get_data
 
 
-def submit_review(review_data: str):
+def submit_review(review_data: str, server_url: str):
     """
     Submits a review to the server for sentiment analysis.
 
@@ -73,7 +73,7 @@ def generate_mutant(review, mutate_count):
 
 
 # Test the sentiment analysis model with original and mutant reviews
-def get_assertion_model(review, liked, mutate_count):
+def get_assertion_model(review, liked, mutate_count, server_url):
     """
     Test the sentiment analysis model using mutamorphic testing.
 
@@ -82,9 +82,9 @@ def get_assertion_model(review, liked, mutate_count):
     liked (bool): The expected sentiment label (True for positive, False for negative).
     mutate_count (int): The number of words to be mutated.
     """
-    original_sentiment = submit_review(review)
+    original_sentiment = submit_review(review, server_url)
     mutant_review = generate_mutant(review, mutate_count)
-    mutant_sentiment = submit_review(mutant_review)
+    mutant_sentiment = submit_review(mutant_review, server_url)
 
     if original_sentiment != mutant_sentiment:
         pytest.skip("Mutation detected! From : {0}; To: {1}".format(review, mutant_review))
@@ -128,7 +128,7 @@ def test_sentiment_analysis(dataset, mutate_words_count, model_service_url):
     liked_column = dataset["Liked"]
 
     for review, liked in zip(review_column, liked_column):
-        get_assertion_model(review, liked, mutate_words_count)
+        get_assertion_model(review, liked, mutate_words_count, model_service_url)
 
 
 def pytest_addoption(parser):
