@@ -15,6 +15,7 @@ def submit_review(review_data: str, server_url: str):
 
     Args:
         review_data (str): The review text to be analyzed.
+        server_url (str): The review server that's used to analyze the reviews.
 
     Returns:
         int or None: The sentiment value of the review if the request is successful,
