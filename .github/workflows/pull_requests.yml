@@ -67,10 +67,10 @@ jobs:
 
       - name: Wait for container to start
         run: |
-          until docker ps --filter "name=test-model-service" --format "{{.Status}}" | grep -q "healthy"; do
-            echo "Container not yet healthy..."
-            sleep 10
-          done
+            until nc -zv localhost 8000; do
+              echo "Container not yet started..."
+              sleep 5
+            done
 
       - name: Run tests
         run: poetry run pytest
