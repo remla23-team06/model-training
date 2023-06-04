@@ -64,6 +64,7 @@ jobs:
       - name: Run Docker container
         run: |
           docker run -d --name test-model-service -p 8000:8000 ghcr.io/remla23-team06/model-service:latest
+          sleep 1m
 
       - name: Wait for container to start
         run: |
