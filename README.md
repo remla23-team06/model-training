@@ -41,3 +41,6 @@ Run `poetry run pytest` to run tests located in the tests folder
 
 ### Running Pylint
 Run `poetry run pylint src` to run all metrics from Pylint, not only those in DSLinter
+
+### Mutamorphic Testing
+Mutmorphic tests can be found in the `tests` directory and run as part of the pipeline.
