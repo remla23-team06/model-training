@@ -1,12 +1,13 @@
-import pytest
-from pytest_lazyfixture import lazy_fixture
-import nltk
-from nltk.corpus import wordnet
-import requests
-import random
 import os
+import random
 
-from src import preprocess_data, get_data
+import nltk
+import pytest
+import requests
+from nltk.corpus import wordnet
+from pytest_lazyfixture import lazy_fixture
+
+from src import get_data, preprocess_data
 
 
 def submit_review(review_data: str, server_url: str):
@@ -24,13 +25,11 @@ def submit_review(review_data: str, server_url: str):
     Raises:
         requests.exceptions.RequestException: If an error occurs while sending the request.
     """
-    payload = {
-        "data": review_data
-    }
+    payload = {"data": review_data}
     response = requests.post(server_url + "/predict", data=payload, timeout=1.5)
     if response.status_code == 200:
         response_data = response.json()
-        sentiment = response_data.get('sentiment', 0)
+        sentiment = response_data.get("sentiment", 0)
         return sentiment == 1
     else:
         return None
@@ -69,7 +68,7 @@ def generate_mutant(review, mutate_count):
         if synonyms:
             mutated_words[idx] = random.choice(synonyms)
 
-    mutant_review = ' '.join(mutated_words)
+    mutant_review = " ".join(mutated_words)
     return mutant_review
 
 
@@ -88,7 +87,9 @@ def get_assertion_model(review, liked, mutate_count, server_url):
     mutant_sentiment = submit_review(mutant_review, server_url)
 
     if original_sentiment != mutant_sentiment:
-        pytest.skip("Mutation detected! From : {0}; To: {1}".format(review, mutant_review))
+        pytest.skip(
+            "Mutation detected! From : {0}; To: {1}".format(review, mutant_review)
+        )
 
 
 @pytest.fixture
@@ -103,7 +104,7 @@ def preprocess_data_dataset():
 
 @pytest.fixture
 def download_wordnet():
-    nltk.download('wordnet')
+    nltk.download("wordnet")
 
 
 @pytest.fixture
@@ -137,7 +138,8 @@ def pytest_addoption(parser):
         "--mutate-count",
         action="store",
         default=1,
-        help="Number of words to mutate in each review."
+        help="Number of words to mutate in each review.",
     )
+
 
 # poetry run pytest -s tests/test_mutamorphic.py
