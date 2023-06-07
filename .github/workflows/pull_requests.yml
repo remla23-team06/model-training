@@ -49,8 +49,6 @@ jobs:
           path: ./.dvc/cache
           key: cache-${{ hashFiles('dvc.lock') }}
 
-
-
       - name: Run DVC pipeline
         run: poetry run dvc repro
 
@@ -59,6 +57,24 @@ jobs:
         with:
           path: ./.dvc/cache  # Adjust the path to your DVC cache directory
           key: ${{ runner.os }}-dvc-${{ hashFiles('dvc.lock') }}
+
+      - name: Pull Docker image for tests
+        run: docker pull ghcr.io/remla23-team06/model-service:latest
+
+      - name: Run Docker container
+        run: |
+          docker run -d --name test-model-service -p 8000:8000 ghcr.io/remla23-team06/model-service:latest
+          sleep 1m
+
+      - name: Wait for container to start
+        run: |
+            until nc -zv localhost 8000; do
+              echo "Container not yet started..."
+              sleep 5
+            done
+
+      - name: Set up environment variable for the model service
+        run: echo "MODEL_SERVICE_URL=http://localhost:8000" >> $GITHUB_ENV
 
       - name: Run tests
         run: poetry run pytest
@@ -112,5 +128,3 @@ jobs:
         with:
           message-path: |
             ./report.md
-
-      
