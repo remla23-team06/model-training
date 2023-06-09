@@ -24,7 +24,7 @@ dslinter = "^2.0.9"
 [tool.poetry.dev-dependencies]
 dvc = "^2.58.1"
 dvc-gdrive = "^2.19.2"
-mllint = "*"
+mllint = "^0.12.2"
 pylint = "^2.12.2"
 mypy = "^0.931"
 black = "^23.3.0"
@@ -50,3 +50,7 @@ disabled = [
     "testing/pass",
     "testing/coverage"
 ]
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
