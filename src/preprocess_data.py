@@ -1,6 +1,6 @@
 """Data Preprocessing"""
 from pathlib import Path
-from typing import List, Union
+from typing import Union
 
 import pandas as pd
 from joblib import dump
@@ -11,6 +11,7 @@ from remlaverlib import Preprocessor
 
 
 def read_data() -> pd.DataFrame:
+    """Load data from dataset and select columns and corresponding datatypes"""
     return pd.read_csv(
         "output/dataset.csv", dtype={"Review": "string", "Liked": "bool"}
     )
@@ -23,7 +24,13 @@ def slice_data(df: pd.DataFrame) -> pd.DataFrame:
     return df[["Review", "Liked"]]
 
 
-def build_corpus(preprocessor: Preprocessor, df: pd.DataFrame) -> List[str]:
+def build_corpus(preprocessor: Preprocessor, df: pd.DataFrame) -> list[str]:
+    """
+    Stem each review and add it to the corpus
+    :param preprocessor: preprocessor from remlaverlib
+    :param df: the dataframe containing input data
+    :return list[str]: the corpus
+    """
     corpus = []
     no_of_lines: int = df.shape[0]
     for i in range(no_of_lines):
@@ -32,13 +39,14 @@ def build_corpus(preprocessor: Preprocessor, df: pd.DataFrame) -> List[str]:
     return corpus
 
 
-def write_corpus(
-        corpus: List[str], filepath: Union[str, Path] = "output/preprocessed_data.joblib"
-) -> None:
+def write_corpus(corpus: list[str],
+                 filepath: Union[str, Path] = "output/preprocessed_data.joblib") -> None:
+    """Write corpus to joblib file"""
     dump(corpus, filepath)
 
 
 def preprocess_pipeline() -> None:
+    """The preprocessing pipeline that DVC executes for the preprocess stage."""
     preprocessor = Preprocessor()
     dataset = read_data()
     dataset = slice_data(dataset)

@@ -36,7 +36,7 @@ def train_test_data():
 def test_nondeterminism_robustness(
     preprocess, trained_model, train_test_data, corpus, dataset
 ):
-    X_train, X_test, y_train, y_test = train_test_data
+    _, X_test, _, y_test = train_test_data
     original_confusion_matrix, original_score = evaluate_model(
         trained_model, test_data=(X_test, y_test)
     )
@@ -44,7 +44,7 @@ def test_nondeterminism_robustness(
         model_variant, (X_train, X_test, y_train, y_test) = train_model(
             corpus, dataset, seed
         )
-        confusion_matrix, accuracy_score = evaluate_model(
+        _, accuracy_score = evaluate_model(
             model_variant, test_data=(X_test, y_test)
         )
         assert abs(original_score - accuracy_score) <= THRESHOLD
