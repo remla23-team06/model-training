@@ -2,10 +2,8 @@
 from pathlib import Path
 from typing import List, Union
 
-import nltk
 import pandas as pd
 from joblib import dump
-from nltk.corpus import stopwords
 from remlaverlib import Preprocessor
 
 
@@ -23,13 +21,6 @@ def slice_data(df: pd.DataFrame) -> pd.DataFrame:
     Select columns from dataset
     """
     return df[["Review", "Liked"]]
-
-
-def get_stop_words() -> List[str]:
-    nltk.download("stopwords")
-    retrieved_stopwords: List[str] = stopwords.words("english")
-    retrieved_stopwords.remove("not")
-    return retrieved_stopwords
 
 
 def build_corpus(preprocessor: Preprocessor, df: pd.DataFrame) -> List[str]:

@@ -5,23 +5,13 @@ from pathlib import Path
 
 import pytest
 
-from src.preprocess_data import build_corpus, get_stop_words, read_data, write_corpus
+from src.preprocess_data import build_corpus, read_data, write_corpus
 from remlaverlib import Preprocessor
 
 
 @pytest.fixture
 def dataset():
     yield read_data()
-
-
-@pytest.fixture
-def all_stopwords():
-    yield get_stop_words()
-
-
-def test_stopwords(all_stopwords):
-    assert len(all_stopwords) > 0
-    assert "not" not in all_stopwords
 
 
 @pytest.fixture
