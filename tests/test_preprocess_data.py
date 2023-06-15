@@ -4,9 +4,9 @@ import re
 from pathlib import Path
 
 import pytest
-from nltk import PorterStemmer
 
 from src.preprocess_data import build_corpus, get_stop_words, read_data, write_corpus
+from remlaverlib import Preprocessor
 
 
 @pytest.fixture
@@ -25,12 +25,10 @@ def test_stopwords(all_stopwords):
 
 
 @pytest.fixture
-def corpus(dataset, all_stopwords):
+def corpus(dataset):
     yield build_corpus(
-        ps=PorterStemmer(),
-        df=dataset,
-        stop_words=all_stopwords,
-        no_of_lines=dataset.shape[0],  # Rows in dataset
+        preprocessor=Preprocessor(),
+        df=dataset
     )
 
 

@@ -8,7 +8,8 @@ import nltk
 import pandas as pd
 from joblib import dump
 from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
+from remlaverlib import Preprocessor
+
 
 # Load the data from the file
 
@@ -33,37 +34,28 @@ def get_stop_words() -> List[str]:
     return retrieved_stopwords
 
 
-def build_corpus(
-    ps: PorterStemmer, df: pd.DataFrame, stop_words: List[str], no_of_lines: int
-) -> List[str]:
+def build_corpus(preprocessor: Preprocessor, df: pd.DataFrame) -> List[str]:
     corpus = []
+    no_of_lines: int = df.shape[0]
     for i in range(no_of_lines):
-        review_str = re.sub("[^a-zA-Z]", " ", df["Review"][i])
-        review_str = review_str.lower()
-        review_list = review_str.split()
-        review_list = [
-            ps.stem(word) for word in review_list if word not in set(stop_words)
-        ]
-        review_list = " ".join(review_list)
-        corpus.append(review_list)
+        stemmed_review = preprocessor.process_input(df["Review"][i])
+        corpus.append(stemmed_review)
     return corpus
 
 
 def write_corpus(
-    corpus: List[str], filepath: Union[str, Path] = "output/preprocessed_data.joblib"
+        corpus: List[str], filepath: Union[str, Path] = "output/preprocessed_data.joblib"
 ) -> None:
     dump(corpus, filepath)
 
 
 def preprocess_pipeline() -> None:
-    all_stopwords = get_stop_words()
+    preprocessor = Preprocessor()
     dataset = read_data()
     dataset = slice_data(dataset)
     word_corpus = build_corpus(
-        ps=PorterStemmer(),
-        df=dataset,
-        stop_words=all_stopwords,
-        no_of_lines=dataset.shape[0],
+        preprocessor=preprocessor,
+        df=dataset
     )
     print(len(word_corpus))
     write_corpus(word_corpus)
