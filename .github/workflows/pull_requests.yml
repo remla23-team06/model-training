@@ -74,6 +74,9 @@ jobs:
       - name: Set up environment variable for the model service
         run: echo "MODEL_SERVICE_URL=http://localhost:8000" >> $GITHUB_ENV
 
+      - name: Download stopwords from NLTK
+        run: poetry run python -c "import nltk; nltk.download('stopwords')"
+
       - name: Run tests
         run: poetry run pytest
 
