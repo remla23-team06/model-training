@@ -6,7 +6,7 @@ import pandas as pd
 
 
 def read_data() -> pd.DataFrame:
-    # Importing dataset
+    """Importing dataset"""
     return pd.read_csv(
         "data/a1_RestaurantReviews_HistoricDump.tsv",
         delimiter="\t",
@@ -16,18 +16,17 @@ def read_data() -> pd.DataFrame:
 
 
 def slice_data(df: pd.DataFrame) -> pd.DataFrame:
-    # Select columns from dataset
+    """Select columns from dataset"""
     return df[["Review", "Liked"]]
 
 
-def write_data(
-    df: pd.DataFrame, output_path: Union[str, Path] = "output/dataset.csv"
-) -> None:
-    # Save data in a file for later use
+def write_data(df: pd.DataFrame, output_path: Union[str, Path] = "output/dataset.csv") -> None:
+    """ Save data in a file for later use"""
     df.to_csv(output_path, index=False)
 
 
 def get_data_pipeline() -> None:
+    """The pipeline that DVC will execute for the get_data stage."""
     dataset = read_data()
     print(dataset.dtypes.to_dict())
     dataset = slice_data(dataset)
