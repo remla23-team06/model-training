@@ -1,7 +1,5 @@
 name: PRChecks
-on:
-  pull_request:
-    types: []
+on: [pull_request]
 
 jobs:
   lint:
