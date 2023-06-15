@@ -47,6 +47,10 @@ jobs:
           path: ./.dvc/cache
           key: cache-${{ hashFiles('dvc.lock') }}
 
+      - name: Download stopwords from NLTK
+        run: poetry run python -c "import nltk; nltk.download('stopwords')"
+
+
       - name: Run DVC pipeline
         run: poetry run dvc repro
 
@@ -74,8 +78,6 @@ jobs:
       - name: Set up environment variable for the model service
         run: echo "MODEL_SERVICE_URL=http://localhost:8000" >> $GITHUB_ENV
 
-      - name: Download stopwords from NLTK
-        run: poetry run python -c "import nltk; nltk.download('stopwords')"
 
       - name: Run tests
         run: poetry run pytest
