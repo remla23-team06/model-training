@@ -87,4 +87,4 @@ jobs:
           key: ${{ runner.os }}-dvc-${{ hashFiles('dvc.lock') }}
 
       - name: Run tests with coverage
-        run: poetry run pytest --junitxml=./tests-report.xml --cov=./tests/ --cov-report=xml
+        run: poetry run pytest --junitxml=./tests-report.xml --cov=./tests/ --cov-report=xml:./coverage.xml
