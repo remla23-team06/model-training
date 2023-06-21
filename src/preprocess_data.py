@@ -6,7 +6,6 @@ import pandas as pd
 from joblib import dump
 from remlaverlib import Preprocessor
 
-
 # Load the data from the file
 
 
@@ -39,8 +38,9 @@ def build_corpus(preprocessor: Preprocessor, df: pd.DataFrame) -> list[str]:
     return corpus
 
 
-def write_corpus(corpus: list[str],
-                 filepath: Union[str, Path] = "output/preprocessed_data.joblib") -> None:
+def write_corpus(
+    corpus: list[str], filepath: Union[str, Path] = "output/preprocessed_data.joblib"
+) -> None:
     """Write corpus to joblib file"""
     dump(corpus, filepath)
 
@@ -50,10 +50,7 @@ def preprocess_pipeline() -> None:
     preprocessor = Preprocessor()
     dataset = read_data()
     dataset = slice_data(dataset)
-    word_corpus = build_corpus(
-        preprocessor=preprocessor,
-        df=dataset
-    )
+    word_corpus = build_corpus(preprocessor=preprocessor, df=dataset)
     print(len(word_corpus))
     write_corpus(word_corpus)
 

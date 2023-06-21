@@ -20,8 +20,10 @@ def slice_data(df: pd.DataFrame) -> pd.DataFrame:
     return df[["Review", "Liked"]]
 
 
-def write_data(df: pd.DataFrame, output_path: Union[str, Path] = "output/dataset.csv") -> None:
-    """ Save data in a file for later use"""
+def write_data(
+    df: pd.DataFrame, output_path: Union[str, Path] = "output/dataset.csv"
+) -> None:
+    """Save data in a file for later use"""
     df.to_csv(output_path, index=False)
 
 

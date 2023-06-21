@@ -23,8 +23,9 @@ def read_data(filepath: Union[str, Path] = "output/dataset.csv") -> pd.DataFrame
     return pd.read_csv(filepath, dtype={"text": "string", "score": "bool"})
 
 
-def transform_to_matrix_vector(input_data: List[str]
-                               , output_data: pd.DataFrame) -> Tuple[DataEntry, DataEntry]:
+def transform_to_matrix_vector(
+    input_data: List[str], output_data: pd.DataFrame
+) -> Tuple[DataEntry, DataEntry]:
     """Data transformation from DataFrame to Numpy matrix"""
     count_vectorizer = CountVectorizer(max_features=1420)
     transformed_input = count_vectorizer.fit_transform(input_data).toarray()
@@ -37,20 +38,23 @@ def create_train_test_split(X_input: DataEntry, y_output: DataEntry, seed: int) 
     return train_test_split(X_input, y_output, test_size=0.20, random_state=seed)
 
 
-def save_model(model: GaussianNB,
-               filepath: Union[str, Path] = "output/trained_model.joblib") -> None:
+def save_model(
+    model: GaussianNB, filepath: Union[str, Path] = "output/trained_model.joblib"
+) -> None:
     """Save the current model to a file"""
     dump(model, filepath)
 
 
-def save_data(data: List[DataEntry],
-              filepath: Union[str, Path] = "output/train_test_data.joblib") -> None:
+def save_data(
+    data: List[DataEntry], filepath: Union[str, Path] = "output/train_test_data.joblib"
+) -> None:
     """Save the data to a file"""
     dump(data, filepath)
 
 
-def train_model(local_corpus: List[str], local_dataset: pd.DataFrame,
-                seed: int) -> Tuple[GaussianNB, List[DataEntry]]:
+def train_model(
+    local_corpus: List[str], local_dataset: pd.DataFrame, seed: int
+) -> Tuple[GaussianNB, List[DataEntry]]:
     """
     Train the model using a Naive Bayes classifier
     """

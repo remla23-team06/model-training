@@ -11,8 +11,9 @@ from sklearn.pipeline import Pipeline
 DataEntry = NDArray[int64]
 
 
-def evaluate_model(model: Pipeline,
-                   test_data: Tuple[DataEntry, DataEntry]) -> Tuple[DataEntry, float]:
+def evaluate_model(
+    model: Pipeline, test_data: Tuple[DataEntry, DataEntry]
+) -> Tuple[DataEntry, float]:
     """
     Evaluate the model by means of test data with a confusion matrix and accuracy score as output
     """
