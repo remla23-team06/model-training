@@ -1,19 +1,16 @@
 """Data Preprocessing"""
-import os
-import re
 from pathlib import Path
-from typing import List, Union
+from typing import Union
 
-import nltk
 import pandas as pd
 from joblib import dump
-from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
+from remlaverlib import Preprocessor
 
 # Load the data from the file
 
 
 def read_data() -> pd.DataFrame:
+    """Load data from dataset and select columns and corresponding datatypes"""
     return pd.read_csv(
         "output/dataset.csv", dtype={"Review": "string", "Liked": "bool"}
     )
@@ -26,45 +23,34 @@ def slice_data(df: pd.DataFrame) -> pd.DataFrame:
     return df[["Review", "Liked"]]
 
 
-def get_stop_words() -> List[str]:
-    nltk.download("stopwords")
-    retrieved_stopwords: List[str] = stopwords.words("english")
-    retrieved_stopwords.remove("not")
-    return retrieved_stopwords
-
-
-def build_corpus(
-    ps: PorterStemmer, df: pd.DataFrame, stop_words: List[str], no_of_lines: int
-) -> List[str]:
+def build_corpus(preprocessor: Preprocessor, df: pd.DataFrame) -> list[str]:
+    """
+    Stem each review and add it to the corpus
+    :param preprocessor: preprocessor from remlaverlib
+    :param df: the dataframe containing input data
+    :return list[str]: the corpus
+    """
     corpus = []
+    no_of_lines: int = df.shape[0]
     for i in range(no_of_lines):
-        review_str = re.sub("[^a-zA-Z]", " ", df["Review"][i])
-        review_str = review_str.lower()
-        review_list = review_str.split()
-        review_list = [
-            ps.stem(word) for word in review_list if word not in set(stop_words)
-        ]
-        review_list = " ".join(review_list)
-        corpus.append(review_list)
+        stemmed_review = preprocessor.process_input(df["Review"][i])
+        corpus.append(stemmed_review)
     return corpus
 
 
 def write_corpus(
-    corpus: List[str], filepath: Union[str, Path] = "output/preprocessed_data.joblib"
+    corpus: list[str], filepath: Union[str, Path] = "output/preprocessed_data.joblib"
 ) -> None:
+    """Write corpus to joblib file"""
     dump(corpus, filepath)
 
 
 def preprocess_pipeline() -> None:
-    all_stopwords = get_stop_words()
+    """The preprocessing pipeline that DVC executes for the preprocess stage."""
+    preprocessor = Preprocessor()
     dataset = read_data()
     dataset = slice_data(dataset)
-    word_corpus = build_corpus(
-        ps=PorterStemmer(),
-        df=dataset,
-        stop_words=all_stopwords,
-        no_of_lines=dataset.shape[0],
-    )
+    word_corpus = build_corpus(preprocessor=preprocessor, df=dataset)
     print(len(word_corpus))
     write_corpus(word_corpus)
 

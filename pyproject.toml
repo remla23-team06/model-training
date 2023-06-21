@@ -13,8 +13,19 @@ repository = "https://github.com/remla23-team06/model-training"
 
 readme = "README.md"
 
+[[tool.poetry.source]]
+name = "test"
+url = "https://test.pypi.org/simple"
+priority = "explicit"
+
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "default"
+
 [tool.poetry.dependencies]
 python = "^3.10"
+remlaverlib = {version = "^3.0.0", source = "test"}
 notebook = "^6.5.4"
 pandas = "^2.0.1"
 nltk = "^3.8.1"
