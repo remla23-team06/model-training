@@ -3,6 +3,7 @@ stages:
     cmd: poetry run python src/get_data.py
     deps:
     - src/get_data.py
+    - data/
     outs:
     - output/dataset.csv
   preprocess_data:

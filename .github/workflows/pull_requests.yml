@@ -50,6 +50,8 @@ jobs:
       - name: Download stopwords from NLTK
         run: poetry run python -c "import nltk; nltk.download('stopwords')"
 
+      - name: Pull DVC remote
+        run: poetry run dvc pull -r myremote
 
       - name: Run DVC pipeline
         run: poetry run dvc repro

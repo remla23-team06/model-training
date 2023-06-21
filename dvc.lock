@@ -3,6 +3,10 @@ stages:
   get_data:
     cmd: poetry run python src/get_data.py
     deps:
+    - path: data/
+      md5: aa5e8e3fbf199bd67d4ad0769cabab9a.dir
+      size: 101015
+      nfiles: 3
     - path: src/get_data.py
       md5: 3c0d39bd34ce29e19fe8ffe50d62baaf
       size: 984
