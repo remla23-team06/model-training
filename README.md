@@ -2,7 +2,7 @@
 
 ## Requirements
 - Python 3.10
-- Poetry
+- Poetry 1.5.1 (to update, click [here](https://python-poetry.org))
 
 ## Running the project
 1. Run `poetry install` to install dependencies
