@@ -82,9 +82,8 @@ jobs:
       - name: Set up environment variable for the model service
         run: echo "MODEL_SERVICE_URL=http://localhost:8000" >> $GITHUB_ENV
 
-
-      - name: Run tests
-        run: poetry run pytest
+      - name: Run tests with coverage
+        run: poetry run pytest --junitxml=tests-report.xml --cov=tests/ --cov-report=xml
 
       - uses: actions/upload-artifact@v3
         with:

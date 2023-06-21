@@ -86,5 +86,5 @@ jobs:
           path: ./.dvc/cache  # Adjust the path to your DVC cache directory
           key: ${{ runner.os }}-dvc-${{ hashFiles('dvc.lock') }}
 
-      - name: Run tests
-        run: poetry run pytest
+      - name: Run tests with coverage
+        run: poetry run pytest --junitxml=tests-report.xml --cov=tests/ --cov-report=xml
