@@ -38,7 +38,9 @@ def train_test_data():
     yield joblib.load("output/train_test_data.joblib")
 
 
-def test_nondeterminism_robustness(trained_model, train_test_data, corpus, dataset):
+def test_nondeterminism_robustness(
+    preprocess, trained_model, train_test_data, corpus, dataset
+):
     """Test the robustness of the model against nondeterminism."""
     _, X_test, _, y_test = train_test_data
     _, original_score = evaluate_model(trained_model, test_data=(X_test, y_test))
