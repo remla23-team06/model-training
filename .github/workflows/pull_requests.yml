@@ -83,7 +83,7 @@ jobs:
         run: echo "MODEL_SERVICE_URL=http://localhost:8000" >> $GITHUB_ENV
 
       - name: Run tests with coverage
-        run: poetry run pytest --junitxml=./tests-report.xml --cov=./tests/ --cov-report=xml
+        run: poetry run pytest --junitxml=./tests-report.xml --cov=./tests/ --cov-report=xml:./coverage.xml
 
       - uses: actions/upload-artifact@v3
         with:
