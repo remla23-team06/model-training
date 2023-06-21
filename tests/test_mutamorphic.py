@@ -31,8 +31,7 @@ def submit_review(review_data: str, server_url: str):
         response_data = response.json()
         sentiment = response_data.get("sentiment", 0)
         return sentiment == 1
-    else:
-        return None
+    return None
 
 
 # Generate a mutant by modifying random words in the input review
@@ -73,7 +72,7 @@ def generate_mutant(review, mutate_count):
 
 
 # Test the sentiment analysis model with original and mutant reviews
-def get_assertion_model(review, liked, mutate_count, server_url):
+def get_assertion_model(review, mutate_count, server_url):
     """
     Test the sentiment analysis model using mutamorphic testing.
 
@@ -87,33 +86,36 @@ def get_assertion_model(review, liked, mutate_count, server_url):
     mutant_sentiment = submit_review(mutant_review, server_url)
 
     if original_sentiment != mutant_sentiment:
-        pytest.skip(
-            "Mutation detected! From : {0}; To: {1}".format(review, mutant_review)
-        )
+        pytest.skip(f"Mutation detected! From : {review}; To: {mutant_review}")
 
 
 @pytest.fixture
 def get_data_dataset():
+    """Get the dataset."""
     yield get_data.read_data()
 
 
 @pytest.fixture
 def preprocess_data_dataset():
+    """Process the data."""
     yield preprocess_data.read_data()
 
 
 @pytest.fixture
 def download_wordnet():
+    """Download the wordnet corpus."""
     nltk.download("wordnet")
 
 
 @pytest.fixture
 def mutate_words_count():
+    """Mutate a single word in each review."""
     return int(os.environ.get("MUTATE_COUNT", "1"))
 
 
 @pytest.fixture
 def model_service_url():
+    """Get the model service URL."""
     return str(os.environ.get("MODEL_SERVICE_URL", "http://localhost:8000"))
 
 
@@ -126,14 +128,16 @@ dataset_fixture = "dataset", [
 @pytest.mark.usefixtures("download_wordnet")
 @pytest.mark.parametrize(*dataset_fixture)
 def test_sentiment_analysis(dataset, mutate_words_count, model_service_url):
+    """Test the sentiment analysis model using mutamorphic testing."""
     review_column = dataset["Review"]
     liked_column = dataset["Liked"]
 
-    for review, liked in zip(review_column, liked_column):
-        get_assertion_model(review, liked, mutate_words_count, model_service_url)
+    for review, _ in zip(review_column, liked_column):
+        get_assertion_model(review, mutate_words_count, model_service_url)
 
 
 def pytest_addoption(parser):
+    """Add option to specify the number of words to mutate in each review."""
     parser.addoption(
         "--mutate-count",
         action="store",
