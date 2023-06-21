@@ -7,3 +7,10 @@
 report.txt
 __pycache__/
 /data
+
+# Ignore files from pytest
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
