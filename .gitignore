@@ -6,3 +6,4 @@
 tests-report.xml
 report.txt
 __pycache__/
+/data
