@@ -4,6 +4,9 @@
 - Python 3.10
 - Poetry 1.5.0 (to update, click [here](https://python-poetry.org))
 
+_Disclaimer: Poetry can be installed on Linux, Mac, and Windows with WSL (Windows Subsystem for Linux)_ 
+```curl -sSL https://install.python-poetry.org | python -```
+
 ## Running the project
 1. Run `poetry install` to install dependencies
 2. Ensure that you are using the correct Python version (3.10) by running `poetry env info`
