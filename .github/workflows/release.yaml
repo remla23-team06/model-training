@@ -77,9 +77,6 @@ jobs:
           path: ./.dvc/cache
           key: cache-${{ hashFiles('dvc.lock') }}
 
-      - name: Pull DVC remote
-        run: poetry run dvc pull -r myremote
-
       - name: Run DVC pipeline
         run: poetry run dvc repro
 
