@@ -2,8 +2,9 @@
 from pathlib import Path
 from typing import Union
 
-import pandas as pd
 import gdown
+import pandas as pd
+
 
 def get_data() -> None:
     """Retrieve data folder with data files from Google Drive"""
