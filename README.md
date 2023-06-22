@@ -19,6 +19,9 @@ _Disclaimer: Poetry can be installed on Linux, Mac, and Windows with WSL (Window
 
 The pipeline has 4 stages: get_data, preprocess_data, train, evaluate_model
 
+## Remote Data Storage
+The data utilized in the project is currently stored on Google Drive. Accessing it is part of our pipeline, which executes `get_data()` in `src/get_data/py` to download a `data/` folder with datasets. Reproducing the pipeline (look at the section above) triggers the remote data downloading, as it is the first stage of the pipeline
+
 ## Running DVC metrics
 There is a metric for the model accuracy, which is calculated by the `evaluate_model` stage.
 1. Run `poetry run dvc metrics show` to show the metrics
