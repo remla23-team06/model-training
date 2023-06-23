@@ -17,3 +17,6 @@ coverage.xml
 
 # Ignore mllint report
 report.md
+
+# Ignore Python byproducts in the test directory
+tests/__pycache__
