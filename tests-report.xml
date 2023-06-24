@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="tests-report.xml" errors="0" failures="2" skipped="0" tests="12" time="8.731" timestamp="2023-06-24T16:58:23.881648" hostname="Radeks-MacBook-Pro.local"><testcase classname="tests.test_dataset" name="test_used_cols[get_data_dataset]" time="0.011" /><testcase classname="tests.test_dataset" name="test_used_cols[preprocess_data_dataset]" time="0.007" /><testcase classname="tests.test_dataset" name="test_dtypes[get_data_dataset]" time="0.005" /><testcase classname="tests.test_dataset" name="test_dtypes[preprocess_data_dataset]" time="0.007" /><testcase classname="tests.test_dataset" name="test_not_empty[get_data_dataset]" time="0.008" /><testcase classname="tests.test_dataset" name="test_not_empty[preprocess_data_dataset]" time="0.005" /><testcase classname="tests.test_get_data" name="test_write_data" time="0.016" /><testcase classname="tests.test_mutamorphic" name="test_sentiment_analysis[get_data_dataset]" time="0.042"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x138fdd3f0&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))">self = &lt;urllib3.connection.HTTPConnection object at 0x138fdd3f0&gt;
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="tests-report.xml" errors="0" failures="2" skipped="0" tests="12" time="12.791" timestamp="2023-06-24T17:30:07.818602" hostname="Radeks-MacBook-Pro.local"><testcase classname="tests.test_dataset" name="test_used_cols[get_data_dataset]" time="0.019" /><testcase classname="tests.test_dataset" name="test_used_cols[preprocess_data_dataset]" time="0.006" /><testcase classname="tests.test_dataset" name="test_dtypes[get_data_dataset]" time="0.006" /><testcase classname="tests.test_dataset" name="test_dtypes[preprocess_data_dataset]" time="0.006" /><testcase classname="tests.test_dataset" name="test_not_empty[get_data_dataset]" time="0.007" /><testcase classname="tests.test_dataset" name="test_not_empty[preprocess_data_dataset]" time="0.005" /><testcase classname="tests.test_get_data" name="test_write_data" time="0.017" /><testcase classname="tests.test_mutamorphic" name="test_sentiment_analysis[get_data_dataset]" time="1.078"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13afe1630&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))">self = &lt;urllib3.connection.HTTPConnection object at 0x13afe1630&gt;
 
     def _new_conn(self) -&gt; socket.socket:
         """Establish a socket connection and set nodelay settings on it.
@@ -74,7 +74,7 @@ E               ConnectionRefusedError: [Errno 61] Connection refused
 
 The above exception was the direct cause of the following exception:
 
-self = &lt;urllib3.connectionpool.HTTPConnectionPool object at 0x138fdd1e0&gt;, method = 'POST', url = '/predict'
+self = &lt;urllib3.connectionpool.HTTPConnectionPool object at 0x13afe1420&gt;, method = 'POST', url = '/predict'
 body = 'data=Wow...+Loved+this+place.'
 headers = {'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '29', 'Content-Type': 'application/x-www-form-urlencoded'}
 retries = Retry(total=0, connect=None, read=False, redirect=None, status=None), redirect = False, assert_same_host = False
@@ -309,7 +309,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
     self.sock = self._new_conn()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;urllib3.connection.HTTPConnection object at 0x138fdd3f0&gt;
+self = &lt;urllib3.connection.HTTPConnection object at 0x13afe1630&gt;
 
     def _new_conn(self) -&gt; socket.socket:
         """Establish a socket connection and set nodelay settings on it.
@@ -335,13 +335,13 @@ self = &lt;urllib3.connection.HTTPConnection object at 0x138fdd3f0&gt;
 &gt;           raise NewConnectionError(
                 self, f"Failed to establish a new connection: {e}"
             ) from e
-E           urllib3.exceptions.NewConnectionError: &lt;urllib3.connection.HTTPConnection object at 0x138fdd3f0&gt;: Failed to establish a new connection: [Errno 61] Connection refused
+E           urllib3.exceptions.NewConnectionError: &lt;urllib3.connection.HTTPConnection object at 0x13afe1630&gt;: Failed to establish a new connection: [Errno 61] Connection refused
 
 /Users/rkargul/Library/Caches/pypoetry/virtualenvs/model-training-HelfSsN9-py3.10/lib/python3.10/site-packages/urllib3/connection.py:215: NewConnectionError
 
 The above exception was the direct cause of the following exception:
 
-self = &lt;requests.adapters.HTTPAdapter object at 0x138fdcaf0&gt;, request = &lt;PreparedRequest [POST]&gt;, stream = False
+self = &lt;requests.adapters.HTTPAdapter object at 0x13afe0d30&gt;, request = &lt;PreparedRequest [POST]&gt;, stream = False
 timeout = Timeout(connect=1.5, read=1.5, total=None), verify = True, cert = None, proxies = OrderedDict()
 
     def send(
@@ -417,8 +417,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
 self = Retry(total=0, connect=None, read=False, redirect=None, status=None), method = 'POST', url = '/predict', response = None
-error = NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x138fdd3f0&gt;: Failed to establish a new connection: [Errno 61] Connection refused')
-_pool = &lt;urllib3.connectionpool.HTTPConnectionPool object at 0x138fdd1e0&gt;, _stacktrace = &lt;traceback object at 0x138eec880&gt;
+error = NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13afe1630&gt;: Failed to establish a new connection: [Errno 61] Connection refused')
+_pool = &lt;urllib3.connectionpool.HTTPConnectionPool object at 0x13afe1420&gt;, _stacktrace = &lt;traceback object at 0x13aed7f40&gt;
 
     def increment(
         self,
@@ -512,7 +512,7 @@ _pool = &lt;urllib3.connectionpool.HTTPConnectionPool object at 0x138fdd1e0&gt;,
         if new_retry.is_exhausted():
             reason = error or ResponseError(cause)
 &gt;           raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
-E           urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x138fdd3f0&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))
+E           urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13afe1630&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))
 
 /Users/rkargul/Library/Caches/pypoetry/virtualenvs/model-training-HelfSsN9-py3.10/lib/python3.10/site-packages/urllib3/util/retry.py:515: MaxRetryError
 
@@ -551,7 +551,7 @@ tests/test_mutamorphic.py:29: in submit_review
     r = adapter.send(request, **kwargs)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;requests.adapters.HTTPAdapter object at 0x138fdcaf0&gt;, request = &lt;PreparedRequest [POST]&gt;, stream = False
+self = &lt;requests.adapters.HTTPAdapter object at 0x13afe0d30&gt;, request = &lt;PreparedRequest [POST]&gt;, stream = False
 timeout = Timeout(connect=1.5, read=1.5, total=None), verify = True, cert = None, proxies = OrderedDict()
 
     def send(
@@ -640,9 +640,9 @@ timeout = Timeout(connect=1.5, read=1.5, total=None), verify = True, cert = None
                 raise SSLError(e, request=request)
     
 &gt;           raise ConnectionError(e, request=request)
-E           requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x138fdd3f0&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))
+E           requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13afe1630&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))
 
-/Users/rkargul/Library/Caches/pypoetry/virtualenvs/model-training-HelfSsN9-py3.10/lib/python3.10/site-packages/requests/adapters.py:519: ConnectionError</failure></testcase><testcase classname="tests.test_mutamorphic" name="test_sentiment_analysis[preprocess_data_dataset]" time="0.041"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13921fa90&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))">self = &lt;urllib3.connection.HTTPConnection object at 0x13921fa90&gt;
+/Users/rkargul/Library/Caches/pypoetry/virtualenvs/model-training-HelfSsN9-py3.10/lib/python3.10/site-packages/requests/adapters.py:519: ConnectionError</failure></testcase><testcase classname="tests.test_mutamorphic" name="test_sentiment_analysis[preprocess_data_dataset]" time="0.153"><failure message="requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13b2deb30&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))">self = &lt;urllib3.connection.HTTPConnection object at 0x13b2deb30&gt;
 
     def _new_conn(self) -&gt; socket.socket:
         """Establish a socket connection and set nodelay settings on it.
@@ -718,7 +718,7 @@ E               ConnectionRefusedError: [Errno 61] Connection refused
 
 The above exception was the direct cause of the following exception:
 
-self = &lt;urllib3.connectionpool.HTTPConnectionPool object at 0x13921c0d0&gt;, method = 'POST', url = '/predict'
+self = &lt;urllib3.connectionpool.HTTPConnectionPool object at 0x13b2dfc40&gt;, method = 'POST', url = '/predict'
 body = 'data=Wow...+Loved+this+place.'
 headers = {'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '29', 'Content-Type': 'application/x-www-form-urlencoded'}
 retries = Retry(total=0, connect=None, read=False, redirect=None, status=None), redirect = False, assert_same_host = False
@@ -953,7 +953,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
     self.sock = self._new_conn()
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;urllib3.connection.HTTPConnection object at 0x13921fa90&gt;
+self = &lt;urllib3.connection.HTTPConnection object at 0x13b2deb30&gt;
 
     def _new_conn(self) -&gt; socket.socket:
         """Establish a socket connection and set nodelay settings on it.
@@ -979,13 +979,13 @@ self = &lt;urllib3.connection.HTTPConnection object at 0x13921fa90&gt;
 &gt;           raise NewConnectionError(
                 self, f"Failed to establish a new connection: {e}"
             ) from e
-E           urllib3.exceptions.NewConnectionError: &lt;urllib3.connection.HTTPConnection object at 0x13921fa90&gt;: Failed to establish a new connection: [Errno 61] Connection refused
+E           urllib3.exceptions.NewConnectionError: &lt;urllib3.connection.HTTPConnection object at 0x13b2deb30&gt;: Failed to establish a new connection: [Errno 61] Connection refused
 
 /Users/rkargul/Library/Caches/pypoetry/virtualenvs/model-training-HelfSsN9-py3.10/lib/python3.10/site-packages/urllib3/connection.py:215: NewConnectionError
 
 The above exception was the direct cause of the following exception:
 
-self = &lt;requests.adapters.HTTPAdapter object at 0x13921c340&gt;, request = &lt;PreparedRequest [POST]&gt;, stream = False
+self = &lt;requests.adapters.HTTPAdapter object at 0x13b2de470&gt;, request = &lt;PreparedRequest [POST]&gt;, stream = False
 timeout = Timeout(connect=1.5, read=1.5, total=None), verify = True, cert = None, proxies = OrderedDict()
 
     def send(
@@ -1061,8 +1061,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
 self = Retry(total=0, connect=None, read=False, redirect=None, status=None), method = 'POST', url = '/predict', response = None
-error = NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13921fa90&gt;: Failed to establish a new connection: [Errno 61] Connection refused')
-_pool = &lt;urllib3.connectionpool.HTTPConnectionPool object at 0x13921c0d0&gt;, _stacktrace = &lt;traceback object at 0x1394b2a40&gt;
+error = NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13b2deb30&gt;: Failed to establish a new connection: [Errno 61] Connection refused')
+_pool = &lt;urllib3.connectionpool.HTTPConnectionPool object at 0x13b2dfc40&gt;, _stacktrace = &lt;traceback object at 0x13b4d5d40&gt;
 
     def increment(
         self,
@@ -1156,7 +1156,7 @@ _pool = &lt;urllib3.connectionpool.HTTPConnectionPool object at 0x13921c0d0&gt;,
         if new_retry.is_exhausted():
             reason = error or ResponseError(cause)
 &gt;           raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
-E           urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13921fa90&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))
+E           urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13b2deb30&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))
 
 /Users/rkargul/Library/Caches/pypoetry/virtualenvs/model-training-HelfSsN9-py3.10/lib/python3.10/site-packages/urllib3/util/retry.py:515: MaxRetryError
 
@@ -1195,7 +1195,7 @@ tests/test_mutamorphic.py:29: in submit_review
     r = adapter.send(request, **kwargs)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;requests.adapters.HTTPAdapter object at 0x13921c340&gt;, request = &lt;PreparedRequest [POST]&gt;, stream = False
+self = &lt;requests.adapters.HTTPAdapter object at 0x13b2de470&gt;, request = &lt;PreparedRequest [POST]&gt;, stream = False
 timeout = Timeout(connect=1.5, read=1.5, total=None), verify = True, cert = None, proxies = OrderedDict()
 
     def send(
@@ -1284,6 +1284,6 @@ timeout = Timeout(connect=1.5, read=1.5, total=None), verify = True, cert = None
                 raise SSLError(e, request=request)
     
 &gt;           raise ConnectionError(e, request=request)
-E           requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13921fa90&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))
+E           requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x13b2deb30&gt;: Failed to establish a new connection: [Errno 61] Connection refused'))
 
-/Users/rkargul/Library/Caches/pypoetry/virtualenvs/model-training-HelfSsN9-py3.10/lib/python3.10/site-packages/requests/adapters.py:519: ConnectionError</failure></testcase><testcase classname="tests.test_preprocess_data" name="test_build_corpus" time="0.479" /><testcase classname="tests.test_preprocess_data" name="test_write_preprocess_data" time="0.009" /><testcase classname="tests.test_train" name="test_nondeterminism_robustness" time="0.776" /></testsuite></testsuites>
+/Users/rkargul/Library/Caches/pypoetry/virtualenvs/model-training-HelfSsN9-py3.10/lib/python3.10/site-packages/requests/adapters.py:519: ConnectionError</failure></testcase><testcase classname="tests.test_preprocess_data" name="test_build_corpus" time="0.467" /><testcase classname="tests.test_preprocess_data" name="test_write_preprocess_data" time="0.010" /><testcase classname="tests.test_train" name="test_nondeterminism_robustness" time="3.181" /></testsuite></testsuites>
