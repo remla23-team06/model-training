@@ -90,6 +90,11 @@ jobs:
           name: junit-test-report
           path: ./tests-report.xml
 
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: ./coverage.xml
+
 
   mllint:
     runs-on: ubuntu-22.04
@@ -104,6 +109,10 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: junit-test-report
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: coverage-report
 
       - name: Install poetry
         run: curl -sSL https://install.python-poetry.org | python3 - --version=1.5.0
