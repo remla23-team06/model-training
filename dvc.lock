@@ -4,9 +4,12 @@ stages:
     cmd: poetry run python src/get_data.py
     deps:
     - path: src/get_data.py
-      md5: 656bd2c1ad3ec4ca2eae4698135f9bec
-      size: 880
+      md5: 004ab84fb25a93377ecadeae5fb3d2c2
+      size: 1299
     outs:
+    - path: data/a1_RestaurantReviews_HistoricDump.tsv
+      md5: 102f1f4193e0bdebdd6cce7f13e0a839
+      size: 54686
     - path: output/dataset.csv
       md5: cdde67ff3915b78c12e7777aad821e82
       size: 58388
@@ -17,8 +20,8 @@ stages:
       md5: cdde67ff3915b78c12e7777aad821e82
       size: 58388
     - path: src/preprocess_data.py
-      md5: ab9fd37742732291a6401ae52beb010a
-      size: 1833
+      md5: 8570995f74b4bc0eb800449b4148d5d7
+      size: 1609
     outs:
     - path: output/preprocessed_data.joblib
       md5: 243212bb05cce5e3fdc72bfd2826d329
@@ -30,31 +33,31 @@ stages:
       md5: 243212bb05cce5e3fdc72bfd2826d329
       size: 31612
     - path: src/train.py
-      md5: 171c2f53290dedc12ea9ad8efe6498ee
-      size: 2143
+      md5: bcbefd9e88b220114e6f48e9d829079e
+      size: 2664
     outs:
     - path: output/train_test_data.joblib
-      md5: 2454d505edd4a3ca6b1598cae4637ead
-      size: 10225334
+      md5: 972450a1e1f6b1b89d42e1a274f91549
+      size: 10225350
     - path: output/trained_model.joblib
-      md5: b545a56191ed35aa234cab513f20fb78
+      md5: 7d9cdfa03a81cb604f7d137283f687ab
       size: 46215
   evaluate_model:
     cmd: poetry run python src/evaluate_model.py
     deps:
     - path: output/train_test_data.joblib
-      md5: 2454d505edd4a3ca6b1598cae4637ead
-      size: 10225334
+      md5: 972450a1e1f6b1b89d42e1a274f91549
+      size: 10225350
     - path: output/trained_model.joblib
-      md5: b545a56191ed35aa234cab513f20fb78
+      md5: 7d9cdfa03a81cb604f7d137283f687ab
       size: 46215
     - path: src/evaluate_model.py
-      md5: 57b94353d1441e90b92150252f7e9859
-      size: 1012
+      md5: 911a310fa716011357eccba5de7db5c7
+      size: 1327
     outs:
     - path: output/accuracy_score.json
       md5: 91d19cd56a55cd91a1cfefe949742a94
       size: 38
     - path: output/evaluation.joblib
-      md5: 34762c27dd89ab8d9df713547d873fff
-      size: 353
+      md5: a53883164aa0421e2296196dc4465191
+      size: 369

@@ -2,7 +2,15 @@
 from pathlib import Path
 from typing import Union
 
+import gdown
 import pandas as pd
+
+
+def get_data() -> None:
+    """Retrieve data folder with data files from Google Drive"""
+    # Reference: https://pypi.org/project/gdown/
+    url = "https://drive.google.com/drive/folders/10tQq1dbW2F5b3rPy8EZi_ejAaq6IkIGG"
+    gdown.download_folder(url, quiet=True, use_cookies=False)
 
 
 def read_data() -> pd.DataFrame:
@@ -29,6 +37,7 @@ def write_data(
 
 def get_data_pipeline() -> None:
     """The pipeline that DVC will execute for the get_data stage."""
+    get_data()
     dataset = read_data()
     print(dataset.dtypes.to_dict())
     dataset = slice_data(dataset)

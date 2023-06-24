@@ -50,9 +50,13 @@ jobs:
       - name: Download stopwords from NLTK
         run: poetry run python -c "import nltk; nltk.download('stopwords')"
 
-
       - name: Run DVC pipeline
         run: poetry run dvc repro
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: remote-data
+          path: ./data
 
       - name: Cache DVC pipeline
         uses: actions/cache@v3
@@ -93,6 +97,10 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: remote-data
 
       - uses: actions/download-artifact@v3
         with:
