@@ -7,10 +7,6 @@ stages:
       md5: 004ab84fb25a93377ecadeae5fb3d2c2
       size: 1299
     outs:
-    - path: ./data/
-      md5: aa5e8e3fbf199bd67d4ad0769cabab9a.dir
-      size: 101015
-      nfiles: 3
     - path: output/dataset.csv
       md5: cdde67ff3915b78c12e7777aad821e82
       size: 58388
