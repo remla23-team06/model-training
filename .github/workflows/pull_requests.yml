@@ -53,6 +53,11 @@ jobs:
       - name: Run DVC pipeline
         run: poetry run dvc repro
 
+      - uses: actions/upload-artifact@v3
+        with:
+          name: remote-data
+          path: ./data
+
       - name: Cache DVC pipeline
         uses: actions/cache@v3
         with:
@@ -96,6 +101,10 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: junit-test-report
+      
+      - uses: actions/download-artifact@v3
+        with:
+          name: remote-data
 
       - name: Install poetry
         run: curl -sSL https://install.python-poetry.org | python3 - --version=1.5.0
