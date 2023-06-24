@@ -3,7 +3,7 @@
 .vscode/
 .mypy_cache/
 .pytest_cache/
-tests-report.xml
+# tests-report.xml // TODO: uncomment when the coverage PR is merged
 report.txt
 __pycache__/
 /data
