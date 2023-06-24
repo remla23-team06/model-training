@@ -101,10 +101,6 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: junit-test-report
-      
-      - uses: actions/download-artifact@v3
-        with:
-          name: remote-data
 
       - name: Install poetry
         run: curl -sSL https://install.python-poetry.org | python3 - --version=1.5.0
