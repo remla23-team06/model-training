@@ -1,46 +1,55 @@
 import os
 import random
-from typing import Tuple
 import time
+from typing import Tuple
 
+import numpy as np
 import psutil
 import pytest
 from joblib import load
 from numpy import int64
 from numpy.typing import NDArray
-import numpy as np
+from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import confusion_matrix, accuracy_score
 
 DataEntry = NDArray[int64]
 
 
 @pytest.fixture
 def trained_model():
+    """Trained model."""
     yield load("output/trained_model.joblib")
 
 
 @pytest.fixture
 def test_data():
+    """Test data."""
     _, X_test, _, y_test = load("output/train_test_data.joblib")
     yield X_test, y_test
 
 
 def evaluate_model(trained_model: Pipeline, test_data: Tuple[DataEntry, DataEntry]):
+    """Evaluate the model."""
     X_test, y_test = test_data
     y_pred = trained_model.predict(X_test)
-    cm = confusion_matrix(y_test, y_pred)
+    c_matrix = confusion_matrix(y_test, y_pred)
     accuracy = accuracy_score(y_test, y_pred)
-    return cm, accuracy
+    return c_matrix, accuracy
 
 
-def test_evaluate_model(trained_model: Pipeline, test_data: Tuple[DataEntry, DataEntry]):
-    cm, accuracy = evaluate_model(trained_model, test_data)
-    assert isinstance(cm, np.ndarray)
+def test_evaluate_model(
+    trained_model: Pipeline, test_data: Tuple[DataEntry, DataEntry]
+):
+    """Test the evaluate_model function."""
+    c_matrix, accuracy = evaluate_model(trained_model, test_data)
+    assert isinstance(c_matrix, np.ndarray)
     assert isinstance(accuracy, float)
 
 
-def test_evaluate_model_usage(trained_model, test_data: Tuple[DataEntry, DataEntry]) -> None:
+def test_evaluate_model_usage(
+    trained_model, test_data: Tuple[DataEntry, DataEntry]
+) -> None:
+    """Test the evaluate_model_usage function."""
     # Load the classifier and data
     test_model_latency(trained_model, test_data)
 
@@ -56,7 +65,8 @@ def test_evaluate_model_usage(trained_model, test_data: Tuple[DataEntry, DataEnt
 
 
 def model_latency(trained_model: Pipeline, test_data: Tuple[DataEntry, DataEntry]):
-    X_test, y_test = test_data
+    """Measure the model latency."""
+    X_test, _ = test_data
 
     # Model Latency Test
     num_iterations = 100
@@ -66,12 +76,14 @@ def model_latency(trained_model: Pipeline, test_data: Tuple[DataEntry, DataEntry
     range_start = 1
     range_end = len(X_test)
 
-    random_pairs = [[random.randint(range_start, range_end), random.randint(range_start, range_end)] for _ in
-                    range(num_pairs)]
+    random_pairs = [
+        [random.randint(range_start, range_end), random.randint(range_start, range_end)]
+        for _ in range(num_pairs)
+    ]
     random_pairs = [[x, y] if x < y else [y, x] for x, y in random_pairs]
 
     for _ in range(num_iterations):
-        for (start, end) in random_pairs:
+        for start, end in random_pairs:
             start_time = time.time()
             _ = trained_model.predict(X_test[start:end])
             end_time = time.time()
@@ -82,6 +94,7 @@ def model_latency(trained_model: Pipeline, test_data: Tuple[DataEntry, DataEntry
 
 
 def test_model_latency(trained_model: Pipeline, test_data: Tuple[DataEntry, DataEntry]):
+    """Test the model latency."""
     average_latency = model_latency(trained_model, test_data)
     print("Average Model Latency:", average_latency)
     assert average_latency > 0, "Average model latency should be greater than zero."

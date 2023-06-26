@@ -98,7 +98,7 @@ def get_assertion_model_inconsistency_repair(review, mutate_count, server_url):
     mutate_count (int): The number of words to be mutated.
     server_url (str): The review server that's used to analyze the reviews.
     """
-    MAX_TRIES = 10
+    max_attempts = 10  # Maximum number of attempts to repair the mutant review
     original_sentiment = submit_review(review, server_url)
     mutant_review = generate_mutant(review, mutate_count)
     mutant_sentiment = submit_review(mutant_review, server_url)
@@ -110,15 +110,20 @@ def get_assertion_model_inconsistency_repair(review, mutate_count, server_url):
         repaired_mutant_review = review  # Use the original review text
 
         # Keep mutating the repaired mutant review until sentiment matches original sentiment
-        while MAX_TRIES > 0 and submit_review(repaired_mutant_review, server_url) != original_sentiment:
-            MAX_TRIES -= 1
+        while (
+            max_attempts > 0
+            and submit_review(repaired_mutant_review, server_url) != original_sentiment
+        ):
+            max_attempts -= 1
             repaired_mutant_review = generate_mutant(review, mutate_count)
 
         mutant_review = repaired_mutant_review
         mutant_sentiment = original_sentiment
 
-    assert original_sentiment == mutant_sentiment, f"Inconsistency found! From: {review}; To: {initial_review_mutant}" \
-                                                   f", but repaired as {mutant_review} "
+    assert original_sentiment == mutant_sentiment, (
+        f"Inconsistency found! From: {review}; To: {initial_review_mutant}"
+        f", but repaired as {mutant_review} "
+    )
 
 
 @pytest.fixture
@@ -165,7 +170,9 @@ dataset_fixture = "dataset", [
 
 @pytest.mark.usefixtures("download_wordnet")
 @pytest.mark.parametrize(*dataset_fixture)
-def test_sentiment_analysis(dataset, mutate_words_count, model_service_url, mutate_sample_size):
+def test_sentiment_analysis(
+    dataset, mutate_words_count, model_service_url, mutate_sample_size
+):
     """Test the sentiment analysis model using mutamorphic testing."""
     review_column = dataset["Review"]
 
@@ -174,7 +181,9 @@ def test_sentiment_analysis(dataset, mutate_words_count, model_service_url, muta
 
     for review in selected_samples:
         get_assertion_model(review, mutate_words_count, model_service_url)
-        get_assertion_model_inconsistency_repair(review, mutate_words_count, model_service_url)
+        get_assertion_model_inconsistency_repair(
+            review, mutate_words_count, model_service_url
+        )
 
 
 def pytest_addoption(parser):
@@ -191,5 +200,6 @@ def pytest_addoption(parser):
         default=100,
         help="Number of sample phrases to try mutamorphic testing on.",
     )
+
 
 # poetry run pytest -s tests/test_mutamorphic.py
