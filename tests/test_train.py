@@ -46,7 +46,7 @@ def test_nondeterminism_robustness(
     """Test the robustness of the model against nondeterminism."""
     _, X_test, _, y_test = train_test_data
     _, original_score = evaluate_model(trained_model, test_data=(X_test, y_test))
-    for seed in [1, 2]:
+    for seed in [1, 2, 4, 42]:
         model_variant, (_, X_test, _, y_test) = train_model(corpus, dataset, seed)
         _, accuracy_score = evaluate_model(model_variant, test_data=(X_test, y_test))
         assert abs(original_score - accuracy_score) <= THRESHOLD
