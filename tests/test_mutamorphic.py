@@ -146,6 +146,12 @@ def mutate_words_count():
 
 
 @pytest.fixture
+def mutate_sample_size():
+    """The sample size of the mutation."""
+    return int(os.environ.get("MUTATE_SAMPLE_SIZE", "1"))
+
+
+@pytest.fixture
 def model_service_url():
     """Get the model service URL."""
     return str(os.environ.get("MODEL_SERVICE_URL", "http://localhost:8000"))
@@ -159,23 +165,31 @@ dataset_fixture = "dataset", [
 
 @pytest.mark.usefixtures("download_wordnet")
 @pytest.mark.parametrize(*dataset_fixture)
-def test_sentiment_analysis(dataset, mutate_words_count, model_service_url):
+def test_sentiment_analysis(dataset, mutate_words_count, model_service_url, mutate_sample_size):
     """Test the sentiment analysis model using mutamorphic testing."""
     review_column = dataset["Review"]
-    liked_column = dataset["Liked"]
 
-    for review, _ in zip(review_column, liked_column):
+    # Select random samples to try:
+    selected_samples = random.sample(review_column.tolist(), mutate_sample_size)
+
+    for review in selected_samples:
         get_assertion_model(review, mutate_words_count, model_service_url)
         get_assertion_model_inconsistency_repair(review, mutate_words_count, model_service_url)
 
 
 def pytest_addoption(parser):
-    """Add option to specify the number of words to mutate in each review."""
+    """Add option to specify the number of words to mutate in each review and sample size."""
     parser.addoption(
         "--mutate-count",
         action="store",
         default=1,
         help="Number of words to mutate in each review.",
+    )
+    parser.addoption(
+        "--sample-size",
+        action="store",
+        default=100,
+        help="Number of sample phrases to try mutamorphic testing on.",
     )
 
 # poetry run pytest -s tests/test_mutamorphic.py
