@@ -27,22 +27,22 @@ priority = "default"
 python = "^3.10"
 remlaverlib = {version = "^3.0.0", source = "test"}
 notebook = "^6.5.4"
-pandas = "^2.0.1"
 nltk = "^3.8.1"
 scikit-learn = "^1.2.2"
 gdown = "^4.7.1"
 
-
 [tool.poetry.dev-dependencies]
+bandit = "^1.7.5"
+black = "^23.3.0"
+dslinter = "^2.0.9"
 dvc = "^2.58.1"
 dvc-gdrive = "^2.19.2"
 mllint = "0.12.2"
-pylint = "^2.12.2"
 mypy = "^0.931"
-black = "^23.3.0"
-bandit = "^1.7.5"
+pandas = "^2.0.1"
+pylint = "^2.12.2"
 pytest = "^7.3.1"
-dslinter = "^2.0.9"
+pytest-cov = "^4.1.0"
 pytest-lazy-fixture = "^0.6.3"
 
 [tool.isort]
@@ -56,15 +56,17 @@ skips = ['*_test.py', '*/test_*.py']
 
 [tool.mllint.rules]
 disabled = [
-    "version-control/code/git",
     "dependency-management",
-#    "testing/pass",
-    "testing/coverage"
+#    "testing/pass"
 ]
 
 [tool.mllint.testing]
 report = "tests-report.xml"
 targets = { minimum = 1, ratio = { tests = 1, other = 4 }}
+
+[tool.mllint.testing.coverage]
+report = "coverage.xml"
+targets = { line = 80.0 } 
 
 [tool.pytest.ini_options]
 junit_suite_name = "tests-report.xml"

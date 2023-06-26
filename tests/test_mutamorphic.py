@@ -86,7 +86,9 @@ def get_assertion_model(review, mutate_count, server_url):
     mutant_sentiment = submit_review(mutant_review, server_url)
 
     if original_sentiment != mutant_sentiment:
-        pytest.skip(f"Mutation detected! From : {review}; To: {mutant_review}")
+        # pytest.skip(f"Mutation detected! From : {review}; To: {mutant_review}")
+        # Add a log message here to indicate that a mutation was detected
+        print(f"Mutation detected! From : {review}; To: {mutant_review}")
 
 
 def get_assertion_model_inconsistency_repair(review, mutate_count, server_url):

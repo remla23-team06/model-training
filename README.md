@@ -44,6 +44,8 @@ If you want to generate a report, run `poetry run mllint --output report.md`
 ### Running Pytest
 Run `poetry run pytest` to run tests located in the tests folder
 
+To generate a coverage report, run `poetry run pytest --junitxml=tests-report.xml --cov=tests/ --cov-report=xml`
+
 
 ### Running Pylint
 Run `poetry run pylint src` to run all metrics from Pylint, not only those in DSLinter

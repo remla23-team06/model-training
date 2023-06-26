@@ -7,3 +7,16 @@
 report.txt
 __pycache__/
 /data
+
+# Ignore files from pytest
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Ignore mllint report
+report.md
+
+# Ignore Python byproducts in the test directory
+tests/__pycache__
