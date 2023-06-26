@@ -89,6 +89,38 @@ def get_assertion_model(review, mutate_count, server_url):
         pytest.skip(f"Mutation detected! From : {review}; To: {mutant_review}")
 
 
+def get_assertion_model_inconsistency_repair(review, mutate_count, server_url):
+    """
+    Test the sentiment analysis model using metamorphic testing with automatic inconsistency repair.
+
+    Parameters:
+    review (str): The review text.
+    mutate_count (int): The number of words to be mutated.
+    server_url (str): The review server that's used to analyze the reviews.
+    """
+    MAX_TRIES = 10
+    original_sentiment = submit_review(review, server_url)
+    mutant_review = generate_mutant(review, mutate_count)
+    mutant_sentiment = submit_review(mutant_review, server_url)
+
+    initial_review_mutant = mutant_review
+
+    if original_sentiment != mutant_sentiment:
+        # Attempt automatic inconsistency repair
+        repaired_mutant_review = review  # Use the original review text
+
+        # Keep mutating the repaired mutant review until sentiment matches original sentiment
+        while MAX_TRIES > 0 and submit_review(repaired_mutant_review, server_url) != original_sentiment:
+            MAX_TRIES -= 1
+            repaired_mutant_review = generate_mutant(review, mutate_count)
+
+        mutant_review = repaired_mutant_review
+        mutant_sentiment = original_sentiment
+
+    assert original_sentiment == mutant_sentiment, f"Inconsistency found! From: {review}; To: {initial_review_mutant}" \
+                                                   f", but repaired as {mutant_review} "
+
+
 @pytest.fixture
 def get_data_dataset():
     """Get the dataset."""
@@ -134,6 +166,7 @@ def test_sentiment_analysis(dataset, mutate_words_count, model_service_url):
 
     for review, _ in zip(review_column, liked_column):
         get_assertion_model(review, mutate_words_count, model_service_url)
+        get_assertion_model_inconsistency_repair(review, mutate_words_count, model_service_url)
 
 
 def pytest_addoption(parser):
@@ -144,6 +177,5 @@ def pytest_addoption(parser):
         default=1,
         help="Number of words to mutate in each review.",
     )
-
 
 # poetry run pytest -s tests/test_mutamorphic.py
