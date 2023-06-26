@@ -86,9 +86,9 @@ jobs:
         run: poetry run pytest --junitxml=./tests-report.xml --cov=./tests/ --cov-report=xml:./coverage.xml
 
       - name: Upload coverage data to Coveralls
-          run: coveralls
-          env:
-            COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: coveralls --cov-report=./coverage.xml
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
 
       - uses: actions/upload-artifact@v3
         with:
