@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 from remlaverlib import Preprocessor
 
-from src.preprocess_data import build_corpus, read_data, write_corpus
+from src.preprocess_data import build_corpus, read_data, slice_data, write_corpus
 
 
 @pytest.fixture
@@ -19,6 +19,12 @@ def dataset():
 def corpus(dataset):
     """Build the corpus."""
     yield build_corpus(preprocessor=Preprocessor(), df=dataset)
+
+
+def test_slice_data(dataset):
+    """Test slicing the data."""
+    sliced_data = slice_data(dataset)
+    assert sliced_data.columns.tolist() == ["Review", "Liked"]
 
 
 def test_build_corpus(corpus, dataset):

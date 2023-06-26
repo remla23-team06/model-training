@@ -91,6 +91,43 @@ def get_assertion_model(review, mutate_count, server_url):
         print(f"Mutation detected! From : {review}; To: {mutant_review}")
 
 
+def get_assertion_model_inconsistency_repair(review, mutate_count, server_url):
+    """
+    Test the sentiment analysis model using metamorphic testing with automatic inconsistency repair.
+
+    Parameters:
+    review (str): The review text.
+    mutate_count (int): The number of words to be mutated.
+    server_url (str): The review server that's used to analyze the reviews.
+    """
+    max_attempts = 10  # Maximum number of attempts to repair the mutant review
+    original_sentiment = submit_review(review, server_url)
+    mutant_review = generate_mutant(review, mutate_count)
+    mutant_sentiment = submit_review(mutant_review, server_url)
+
+    initial_review_mutant = mutant_review
+
+    if original_sentiment != mutant_sentiment:
+        # Attempt automatic inconsistency repair
+        repaired_mutant_review = review  # Use the original review text
+
+        # Keep mutating the repaired mutant review until sentiment matches original sentiment
+        while (
+            max_attempts > 0
+            and submit_review(repaired_mutant_review, server_url) != original_sentiment
+        ):
+            max_attempts -= 1
+            repaired_mutant_review = generate_mutant(review, mutate_count)
+
+        mutant_review = repaired_mutant_review
+        mutant_sentiment = original_sentiment
+
+    assert original_sentiment == mutant_sentiment, (
+        f"Inconsistency found! From: {review}; To: {initial_review_mutant}"
+        f", but repaired as {mutant_review} "
+    )
+
+
 @pytest.fixture
 def get_data_dataset():
     """Get the dataset."""
@@ -116,6 +153,12 @@ def mutate_words_count():
 
 
 @pytest.fixture
+def mutate_sample_size():
+    """The sample size of the mutation."""
+    return int(os.environ.get("MUTATE_SAMPLE_SIZE", "1"))
+
+
+@pytest.fixture
 def model_service_url():
     """Get the model service URL."""
     return str(os.environ.get("MODEL_SERVICE_URL", "http://localhost:8000"))
@@ -129,20 +172,36 @@ dataset_fixture = "dataset", [
 
 @pytest.mark.usefixtures("download_wordnet")
 @pytest.mark.parametrize(*dataset_fixture)
-def test_sentiment_analysis(dataset, mutate_words_count, model_service_url):
+def test_sentiment_analysis(
+    dataset, mutate_words_count, model_service_url, mutate_sample_size
+):
     """Test the sentiment analysis model using mutamorphic testing."""
     review_column = dataset["Review"]
-    liked_column = dataset["Liked"]
 
-    for review, _ in zip(review_column, liked_column):
+    # Select random samples to try:
+    selected_samples = random.sample(review_column.tolist(), mutate_sample_size)
+
+    for review in selected_samples:
         get_assertion_model(review, mutate_words_count, model_service_url)
+        get_assertion_model_inconsistency_repair(
+            review, mutate_words_count, model_service_url
+        )
 
 
 def pytest_addoption(parser):
-    """Add option to specify the number of words to mutate in each review."""
+    """Add option to specify the number of words to mutate in each review and sample size."""
     parser.addoption(
         "--mutate-count",
         action="store",
         default=1,
         help="Number of words to mutate in each review.",
     )
+    parser.addoption(
+        "--sample-size",
+        action="store",
+        default=100,
+        help="Number of sample phrases to try mutamorphic testing on.",
+    )
+
+
+# poetry run pytest -s tests/test_mutamorphic.py
