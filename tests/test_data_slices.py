@@ -71,6 +71,8 @@ def evaluate_model(
         model: The trained model.
         test_data: Tuple containing the test input data (X_test) and the test target labels (y_test).
         criterion: The criterion for dividing the data into subpopulations.
+        corpus: The corpus represented as a matrix
+        corpus_words: The corpus represented as unprocessed sentences
 
     Returns:
         A tuple containing the confusion matrix, overall accuracy, and accuracy scores for subpopulations.
