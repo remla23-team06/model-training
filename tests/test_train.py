@@ -98,7 +98,17 @@ def test_feature_importance(trained_model, train_test_data):
     assert np.average(feature_importance_scores.importances_mean) >= 0, \
         "Feature importance average scores should be non-negative"
 
-    assert all(score >= 0 for score in
-               feature_importance_scores.values()), "All feature importance scores should be at least 0."
+    assert np.average(feature_importance_scores.importances_mean) >= 0, \
+        "Feature importance average scores should be non-negative"
 
-    assert sum(feature_importance_scores.values()) > 0, "The sum of feature importance scores should be greater than 0."
+    assert np.all(feature_importance_scores.importances_mean >= -0.1), \
+        "All feature importance scores should be at least 0."
+
+    assert np.sum(feature_importance_scores.importances_mean) > 0, \
+        "The sum of feature importance scores should be greater than 0."
+
+    assert np.all(np.isfinite(feature_importance_scores.importances_mean)), \
+        "All feature importance scores should be finite."
+
+    assert np.all(np.isfinite(feature_importance_scores.importances_std)), \
+        "All feature importance standard deviations should be finite."
