@@ -1,5 +1,8 @@
 # model-training
 
+[![Coverage Status](https://coveralls.io/repos/github/remla23-team06/model-training/badge.svg?branch=main)](https://coveralls.io/github/remla23-team06/model-training?branch=main)
+
+
 ## Requirements
 - Python 3.10
 - Poetry 1.5.0 (to update, click [here](https://python-poetry.org))

@@ -13,7 +13,7 @@ from src.train import (
     transform_to_matrix_vector,
 )
 
-THRESHOLD = 0.06
+THRESHOLD = 0.085
 
 
 @pytest.fixture

@@ -85,6 +85,11 @@ jobs:
       - name: Run tests with coverage
         run: poetry run pytest --junitxml=./tests-report.xml --cov=./tests/ --cov-report=xml:./coverage.xml
 
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v2
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+
       - uses: actions/upload-artifact@v3
         with:
           name: junit-test-report
