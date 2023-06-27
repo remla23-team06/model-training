@@ -56,3 +56,8 @@ Run `poetry run pylint src` to run all metrics from Pylint, not only those in DS
 ### Mutamorphic Testing
 Mutmorphic tests can be found in the `tests` directory and run as part of the pipeline.
 
+If you want to run just the mutamorphic tests use the following command:
+`poetry run pytest tests/test_mutamorphic.py -s`
+
+(make sure you also run an instance of the model-service running on port 8000 for local mutamorphic tests)
+
