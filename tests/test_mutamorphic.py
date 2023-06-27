@@ -10,6 +10,48 @@ from pytest_lazyfixture import lazy_fixture
 from src import get_data, preprocess_data
 
 
+@pytest.fixture
+def get_data_dataset():
+    """Get the dataset."""
+    yield get_data.read_data()
+
+
+@pytest.fixture
+def preprocess_data_dataset():
+    """Process the data."""
+    yield preprocess_data.read_data()
+
+
+@pytest.fixture
+def download_wordnet():
+    """Download the wordnet corpus."""
+    nltk.download("wordnet")
+
+
+@pytest.fixture
+def mutate_words_count():
+    """Mutate a single word in each review."""
+    return int(os.environ.get("MUTATE_COUNT", "1"))
+
+
+@pytest.fixture
+def mutate_sample_size():
+    """The sample size of the mutation."""
+    return int(os.environ.get("MUTATE_SAMPLE_SIZE", "1"))
+
+
+@pytest.fixture
+def model_service_url():
+    """Get the model service URL."""
+    return str(os.environ.get("MODEL_SERVICE_URL", "http://localhost:8000"))
+
+
+dataset_fixture = "dataset", [
+    lazy_fixture("get_data_dataset"),
+    lazy_fixture("preprocess_data_dataset"),
+]
+
+
 def submit_review(review_data: str, server_url: str):
     """
     Submits a review to the server for sentiment analysis.
@@ -113,8 +155,8 @@ def get_assertion_model_inconsistency_repair(review, mutate_count, server_url):
 
         # Keep mutating the repaired mutant review until sentiment matches original sentiment
         while (
-            max_attempts > 0
-            and submit_review(repaired_mutant_review, server_url) != original_sentiment
+                max_attempts > 0
+                and submit_review(repaired_mutant_review, server_url) != original_sentiment
         ):
             max_attempts -= 1
             repaired_mutant_review = generate_mutant(review, mutate_count)
@@ -128,52 +170,10 @@ def get_assertion_model_inconsistency_repair(review, mutate_count, server_url):
     )
 
 
-@pytest.fixture
-def get_data_dataset():
-    """Get the dataset."""
-    yield get_data.read_data()
-
-
-@pytest.fixture
-def preprocess_data_dataset():
-    """Process the data."""
-    yield preprocess_data.read_data()
-
-
-@pytest.fixture
-def download_wordnet():
-    """Download the wordnet corpus."""
-    nltk.download("wordnet")
-
-
-@pytest.fixture
-def mutate_words_count():
-    """Mutate a single word in each review."""
-    return int(os.environ.get("MUTATE_COUNT", "1"))
-
-
-@pytest.fixture
-def mutate_sample_size():
-    """The sample size of the mutation."""
-    return int(os.environ.get("MUTATE_SAMPLE_SIZE", "1"))
-
-
-@pytest.fixture
-def model_service_url():
-    """Get the model service URL."""
-    return str(os.environ.get("MODEL_SERVICE_URL", "http://localhost:8000"))
-
-
-dataset_fixture = "dataset", [
-    lazy_fixture("get_data_dataset"),
-    lazy_fixture("preprocess_data_dataset"),
-]
-
-
 @pytest.mark.usefixtures("download_wordnet")
 @pytest.mark.parametrize(*dataset_fixture)
 def test_sentiment_analysis(
-    dataset, mutate_words_count, model_service_url, mutate_sample_size
+        dataset, mutate_words_count, model_service_url, mutate_sample_size
 ):
     """Test the sentiment analysis model using mutamorphic testing."""
     review_column = dataset["Review"]
@@ -202,6 +202,5 @@ def pytest_addoption(parser):
         default=100,
         help="Number of sample phrases to try mutamorphic testing on.",
     )
-
 
 # poetry run pytest -s tests/test_mutamorphic.py
