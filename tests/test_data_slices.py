@@ -1,4 +1,4 @@
-from typing import Tuple, Dict
+from typing import Dict, Tuple
 
 import pytest
 from joblib import load
@@ -34,7 +34,7 @@ def corpus():
     """Fixture that provides the corpus data."""
     corpus = load("output/preprocessed_data.joblib")
     data = read_data()
-    X, y = transform_to_matrix_vector(corpus, data)
+    X, _ = transform_to_matrix_vector(corpus, data)
     yield X
 
 
@@ -58,8 +58,12 @@ def get_data_dataset():
 
 
 def evaluate_model(
-        model: Pipeline, test_data: Tuple[DataEntry, DataEntry], criterion
-        , corpus, corpus_words) -> Tuple[DataEntry, float, Dict[str, float]]:
+    model: Pipeline,
+    test_data: Tuple[DataEntry, DataEntry],
+    criterion,
+    corpus,
+    corpus_words,
+) -> Tuple[DataEntry, float, Dict[str, float]]:
     """
     Evaluate the model's performance on the test data.
 
@@ -74,27 +78,35 @@ def evaluate_model(
     """
     X_test, y_test = test_data
     y_pred = model.predict(X_test)
-    cm = confusion_matrix(y_test, y_pred)
     accuracy = accuracy_score(y_test, y_pred)
 
     def find_row_in_matrix(matrix, row):
-        for i, r in enumerate(matrix):
-            if all(x == y for x, y in zip(r, row)):
+        for i, res in enumerate(matrix):
+            if all(x == y for x, y in zip(res, row)):
                 return i
         return -1
 
     # Get the mappings from the corpus to the X_train filtered by criterion
-    subpopulation_indices = [find_row_in_matrix(X_test, element) for index, element in enumerate(corpus) if
-                             find_row_in_matrix(X_test, element) != -1 and criterion(corpus_words[index])]
+    subpopulation_indices = [
+        find_row_in_matrix(X_test, element)
+        for index, element in enumerate(corpus)
+        if find_row_in_matrix(X_test, element) != -1 and criterion(corpus_words[index])
+    ]
 
     # Calculate accuracy score for the subpopulation based on the provided criterion
-    sub_accuracy = accuracy_score(y_test[subpopulation_indices], y_pred[subpopulation_indices])
+    sub_accuracy = accuracy_score(
+        y_test[subpopulation_indices], y_pred[subpopulation_indices]
+    )
 
-    return cm, accuracy, {"Subpopulation": sub_accuracy}
+    return confusion_matrix(y_test, y_pred), accuracy, {"Subpopulation": sub_accuracy}
 
 
-@pytest.mark.parametrize("criterion_fixture", [0, 1, 2, 3, 4], indirect=["criterion_fixture"])
-def test_evaluate_model(trained_model, test_data, criterion_fixture, corpus, corpus_words):
+@pytest.mark.parametrize(
+    "criterion_fixture", [0, 1, 2, 3, 4], indirect=["criterion_fixture"]
+)
+def test_evaluate_model(
+    trained_model, test_data, criterion_fixture, corpus, corpus_words
+):
     """
     Test the evaluate_model function.
 
@@ -105,9 +117,13 @@ def test_evaluate_model(trained_model, test_data, criterion_fixture, corpus, cor
 
     """
     X_test, y_test = test_data
-    cm, accuracy, accuracy_scores = evaluate_model(trained_model, test_data=(X_test, y_test),
-                                                   criterion=criterion_fixture, corpus=corpus,
-                                                   corpus_words=corpus_words)
+    _, accuracy, accuracy_scores = evaluate_model(
+        trained_model,
+        test_data=(X_test, y_test),
+        criterion=criterion_fixture,
+        corpus=corpus,
+        corpus_words=corpus_words,
+    )
 
     # Assertions for overall accuracy
     assert isinstance(accuracy, float)
