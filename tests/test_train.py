@@ -1,8 +1,8 @@
 import joblib
 import numpy as np
 import pytest
-from sklearn.naive_bayes import GaussianNB
 from sklearn.inspection import permutation_importance
+from sklearn.naive_bayes import GaussianNB
 
 from src.evaluate_model import evaluate_model
 from src.preprocess_data import preprocess_pipeline
@@ -48,7 +48,7 @@ def train_test_data():
 
 
 def test_nondeterminism_robustness(
-        preprocess, trained_model, train_test_data, corpus, dataset
+    preprocess, trained_model, train_test_data, corpus, dataset
 ):
     """Test the robustness of the model against nondeterminism."""
     _, X_test, _, y_test = train_test_data
@@ -95,20 +95,26 @@ def test_feature_importance(trained_model, train_test_data):
 
     feature_importance_scores = permutation_importance(trained_model, X_test, y_test)
 
-    assert np.average(feature_importance_scores.importances_mean) >= 0, \
-        "Feature importance average scores should be non-negative"
+    assert (
+        np.average(feature_importance_scores.importances_mean) >= 0
+    ), "Feature importance average scores should be non-negative"
 
-    assert np.average(feature_importance_scores.importances_mean) >= 0, \
-        "Feature importance average scores should be non-negative"
+    assert (
+        np.average(feature_importance_scores.importances_mean) >= 0
+    ), "Feature importance average scores should be non-negative"
 
-    assert np.all(feature_importance_scores.importances_mean >= -0.1), \
-        "All feature importance scores should be at least 0."
+    assert np.all(
+        feature_importance_scores.importances_mean >= -0.1
+    ), "All feature importance scores should be at least 0."
 
-    assert np.sum(feature_importance_scores.importances_mean) > 0, \
-        "The sum of feature importance scores should be greater than 0."
+    assert (
+        np.sum(feature_importance_scores.importances_mean) > 0
+    ), "The sum of feature importance scores should be greater than 0."
 
-    assert np.all(np.isfinite(feature_importance_scores.importances_mean)), \
-        "All feature importance scores should be finite."
+    assert np.all(
+        np.isfinite(feature_importance_scores.importances_mean)
+    ), "All feature importance scores should be finite."
 
-    assert np.all(np.isfinite(feature_importance_scores.importances_std)), \
-        "All feature importance standard deviations should be finite."
+    assert np.all(
+        np.isfinite(feature_importance_scores.importances_std)
+    ), "All feature importance standard deviations should be finite."
